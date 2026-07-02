@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,13 @@
         body {
             height: 100%;
             overflow: hidden;
+            /* БЛОКИРУЕМ СКРОЛЛ СТРАНИЦЫ */
             background: #08080a;
+            touch-action: none;
+            /* ОТКЛЮЧАЕМ ЖЕСТЫ НА СТРАНИЦЕ */
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         body {
@@ -29,6 +35,8 @@
             position: fixed;
             top: 0;
             left: 0;
+            touch-action: none;
+            overflow: hidden;
         }
 
         #app {
@@ -37,6 +45,8 @@
             height: 100%;
             width: 100%;
             background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
+            touch-action: none;
+            overflow: hidden;
         }
 
         /* --- ШАПКА --- */
@@ -46,6 +56,7 @@
             flex-shrink: 0;
             z-index: 10;
             box-shadow: 0 2px 20px rgba(255, 140, 0, 0.2);
+            touch-action: none;
         }
 
         #header-top {
@@ -98,7 +109,7 @@
             transform: scale(0.95);
         }
 
-        /* --- КАРТА (исправлено: двигается ТОЛЬКО внутри контейнера) --- */
+        /* --- КАРТА (двигается ТОЛЬКО здесь) --- */
         #map-container {
             flex: 1;
             position: relative;
@@ -110,7 +121,14 @@
             min-height: 0;
             touch-action: none;
             cursor: grab;
-            z-index: 1;
+            z-index: 5;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        #map-container:active {
+            cursor: grabbing;
         }
 
         #map-container iframe {
@@ -124,6 +142,9 @@
             pointer-events: none;
             touch-action: none;
             will-change: transform;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -178,6 +199,7 @@
             color: #666;
             font-weight: 500;
             width: 100%;
+            touch-action: none;
         }
 
         #footer-left {
@@ -704,7 +726,7 @@
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
             <h2><span>⛽</span> Подпишись!</h2>
-            <p class="subtitle">Чтобы zawsze знать, <strong>где есть бензин</strong> в Туле.</p>
+            <p class="subtitle">Чтобы всегда знать, <strong>где есть бензин</strong> в Туле.</p>
             <a href="https://t.me/Zapravoil" target="_blank" id="popup-button">
                 Перейти в канал →
             </a>
@@ -814,7 +836,6 @@
                 setTimeout(() => {
                     updateData();
                     fixHeight();
-                    // Сброс позиции при обновлении
                     translateX = 0;
                     translateY = 0;
                     scale = 1;
@@ -826,7 +847,6 @@
         mapFrame.addEventListener('load', function() {
             loading.style.display = 'none';
             fixHeight();
-            // Сброс позиции после загрузки
             setTimeout(() => {
                 translateX = 0;
                 translateY = 0;
@@ -844,7 +864,7 @@
         }, 5000);
 
         // ================================================================
-        // ========== УПРАВЛЕНИЕ КАРТОЙ ТОЛЬКО ВНУТРИ КОНТЕЙНЕРА ==========
+        // ========== УПРАВЛЕНИЕ КАРТОЙ (ОДИН ПАЛЕЦ) ==========
         // ================================================================
 
         let translateX = 0,
@@ -858,7 +878,6 @@
             startY = 0;
         let startTranslateX = 0,
             startTranslateY = 0;
-
         let isZooming = false;
         let lastTouchDist = 0;
         let lastScale = 1;
@@ -868,19 +887,20 @@
             mapFrame.style.transformOrigin = 'center center';
         }
 
-        // ===== Touch события (только для mapContainer) =====
+        // ===== ПРЕДОТВРАЩАЕМ СКРОЛЛ ВЕЗДЕ =====
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
 
+        // ===== Touch события (только карта) =====
         mapContainer.addEventListener('touchstart', function(e) {
-            // Игнорируем, если касание началось не на контейнере
-            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
-
+            e.stopPropagation();
             const touches = e.touches;
             if (touches.length === 1) {
                 isDragging = true;
                 const touch = touches[0];
                 startX = touch.clientX - translateX;
                 startY = touch.clientY - translateY;
-                mapContainer.style.cursor = 'grabbing';
             } else if (touches.length === 2) {
                 isZooming = true;
                 const dx = touches[0].clientX - touches[1].clientX;
@@ -891,29 +911,23 @@
         }, { passive: true });
 
         mapContainer.addEventListener('touchmove', function(e) {
-            // Игнорируем, если событие не на контейнере
-            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
-
             e.preventDefault();
+            e.stopPropagation();
             const touches = e.touches;
 
             if (touches.length === 1 && isDragging) {
                 const touch = touches[0];
                 translateX = touch.clientX - startX;
                 translateY = touch.clientY - startY;
-
-                // Ограничения
                 const maxX = 150;
                 const maxY = 200;
                 translateX = Math.min(Math.max(translateX, -maxX), maxX);
                 translateY = Math.min(Math.max(translateY, -maxY), maxY);
-
                 applyTransform();
             } else if (touches.length === 2 && isZooming) {
                 const dx = touches[0].clientX - touches[1].clientX;
                 const dy = touches[0].clientY - touches[1].clientY;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-
                 if (lastTouchDist > 0) {
                     const delta = dist / lastTouchDist;
                     scale = Math.min(Math.max(lastScale * delta, MIN_SCALE), MAX_SCALE);
@@ -926,46 +940,36 @@
         mapContainer.addEventListener('touchend', function(e) {
             isDragging = false;
             isZooming = false;
-            mapContainer.style.cursor = 'grab';
             lastTouchDist = 0;
         }, { passive: true });
 
-        // ===== Mouse события (только для mapContainer) =====
-
+        // ===== Mouse (десктоп) =====
         mapContainer.addEventListener('mousedown', function(e) {
-            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             if (e.target.closest('button') || e.target.closest('a')) return;
-
             isDragging = true;
             startX = e.clientX - translateX;
             startY = e.clientY - translateY;
-            mapContainer.style.cursor = 'grabbing';
         });
 
         window.addEventListener('mousemove', function(e) {
             if (!isDragging) return;
             translateX = e.clientX - startX;
             translateY = e.clientY - startY;
-
             const maxX = 150;
             const maxY = 200;
             translateX = Math.min(Math.max(translateX, -maxX), maxX);
             translateY = Math.min(Math.max(translateY, -maxY), maxY);
-
             applyTransform();
         });
 
         window.addEventListener('mouseup', function() {
             if (isDragging) {
                 isDragging = false;
-                mapContainer.style.cursor = 'grab';
             }
         });
 
-        // ===== Колесо мыши (зум) =====
-
+        // ===== Колесо (зум) =====
         mapContainer.addEventListener('wheel', function(e) {
-            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             e.preventDefault();
             const delta = e.deltaY > 0 ? -0.05 : 0.05;
             scale = Math.min(Math.max(scale + delta, MIN_SCALE), MAX_SCALE);
@@ -973,9 +977,7 @@
         }, { passive: false });
 
         // ===== Двойной клик (сброс) =====
-
         mapContainer.addEventListener('dblclick', function(e) {
-            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             if (e.target.closest('button') || e.target.closest('a')) return;
             scale = 1;
             translateX = 0;
@@ -1083,13 +1085,11 @@
         }
         sessionStorage.setItem('popupShown', 'true');
 
-        // === ПЕРЕХВАТ ИЗМЕНЕНИЙ РАЗМЕРА ===
         window.addEventListener('resize', fixHeight);
         window.addEventListener('orientationchange', function() {
             setTimeout(fixHeight, 300);
         });
 
-        // === ПЕРИОДИЧЕСКАЯ ПРОВЕРКА ВЫСОТЫ ===
         setInterval(fixHeight, 500);
     </script>
 </body>
