@@ -97,7 +97,7 @@
             transform: scale(0.95);
         }
 
-        /* --- КАРТА (с улучшенным touch) --- */
+        /* --- КАРТА (с исправлением для одного пальца) --- */
         #map-container {
             flex: 1;
             position: relative;
@@ -107,7 +107,8 @@
             background: #0a0a0c;
             box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
             min-height: 0;
-            touch-action: none; /* Улучшает обработку жестов */
+            touch-action: none; /* ОТКЛЮЧАЕМ СТАНДАРТНЫЕ ЖЕСТЫ */
+            cursor: grab;
         }
 
         #map-container iframe {
@@ -118,7 +119,8 @@
             height: 100%;
             border: none;
             filter: saturate(1.1) contrast(1.02);
-            touch-action: none; /* Передаём управление жестами карте */
+            pointer-events: none; /* ОТКЛЮЧАЕМ СОБЫТИЯ МЫШИ НА iframe */
+            touch-action: none;
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -639,7 +641,7 @@
             </div>
         </div>
 
-        <!-- КАРТА (с исправленным URL для одного пальца) -->
+        <!-- КАРТА -->
         <div id="map-container">
             <div id="loading">
                 <div class="spinner"></div>
@@ -729,11 +731,7 @@
         }
 
         // === КОНФИГУРАЦИЯ ===
-        // ========== ГЛАВНОЕ ИСПРАВЛЕНИЕ ==========
-        // Добавлен параметр gestureHandling=cooperative — теперь карта двигается ОДНИМ пальцем
-        const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F&gestureHandling=cooperative';
-        // =========================================
-
+        const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
         const STATIONS_DATA = { green: 12 };
         const RATING = { value: 4.8 };
         const VIEWS = 7518;
@@ -784,6 +782,7 @@
         const MAX_ATTEMPTS = 3;
         const mapFrame = document.getElementById('map-frame');
         const loading = document.getElementById('loading');
+        const mapContainer = document.getElementById('map-container');
 
         function loadMap() {
             loading.style.display = 'block';
@@ -815,6 +814,162 @@
                 setTimeout(checkLoaded, 4000);
             }
         }, 5000);
+
+        // ================================================================
+        // ========== УПРАВЛЕНИЕ КАРТОЙ ОДНИМ ПАЛЬЦЕМ ==========
+        // ================================================================
+
+        let isDragging = false;
+        let startX = 0,
+            startY = 0;
+        let scrollLeft = 0,
+            scrollTop = 0;
+        let isZooming = false;
+        let lastTouchDist = 0;
+        let lastScale = 1;
+
+        // Эмулируем перемещение через transform
+        let translateX = 0,
+            translateY = 0;
+        let scale = 1;
+        const MIN_SCALE = 0.8;
+        const MAX_SCALE = 1.8;
+
+        // Применяем трансформацию к iframe
+        function applyTransform() {
+            mapFrame.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            mapFrame.style.transformOrigin = 'center center';
+        }
+
+        // ===== Touch события (мобильные) =====
+
+        mapContainer.addEventListener('touchstart', function(e) {
+            const touches = e.touches;
+            if (touches.length === 1) {
+                // Перемещение одним пальцем
+                isDragging = true;
+                const touch = touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                mapContainer.style.cursor = 'grabbing';
+            } else if (touches.length === 2) {
+                // Зум двумя пальцами
+                isZooming = true;
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                lastTouchDist = Math.sqrt(dx * dx + dy * dy);
+                lastScale = scale;
+            }
+        }, { passive: true });
+
+        mapContainer.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            const touches = e.touches;
+
+            if (touches.length === 1 && isDragging) {
+                const touch = touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+
+                // Ограничения, чтобы не утащить карту за край
+                const maxX = 150;
+                const maxY = 200;
+                translateX = Math.min(Math.max(translateX, -maxX), maxX);
+                translateY = Math.min(Math.max(translateY, -maxY), maxY);
+
+                applyTransform();
+            } else if (touches.length === 2 && isZooming) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (lastTouchDist > 0) {
+                    const delta = dist / lastTouchDist;
+                    scale = Math.min(Math.max(lastScale * delta, MIN_SCALE), MAX_SCALE);
+                    applyTransform();
+                }
+                lastTouchDist = dist;
+            }
+        }, { passive: false });
+
+        mapContainer.addEventListener('touchend', function(e) {
+            isDragging = false;
+            isZooming = false;
+            mapContainer.style.cursor = 'grab';
+            lastTouchDist = 0;
+        }, { passive: true });
+
+        // ===== Mouse события (десктоп) =====
+
+        let isMouseDown = false;
+        let mouseStartX = 0,
+            mouseStartY = 0;
+        let mouseStartTranslateX = 0,
+            mouseStartTranslateY = 0;
+
+        mapContainer.addEventListener('mousedown', function(e) {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            isMouseDown = true;
+            mouseStartX = e.clientX;
+            mouseStartY = e.clientY;
+            mouseStartTranslateX = translateX;
+            mouseStartTranslateY = translateY;
+            mapContainer.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isMouseDown) return;
+            const dx = e.clientX - mouseStartX;
+            const dy = e.clientY - mouseStartY;
+            translateX = mouseStartTranslateX + dx;
+            translateY = mouseStartTranslateY + dy;
+
+            const maxX = 150;
+            const maxY = 200;
+            translateX = Math.min(Math.max(translateX, -maxX), maxX);
+            translateY = Math.min(Math.max(translateY, -maxY), maxY);
+
+            applyTransform();
+        });
+
+        window.addEventListener('mouseup', function() {
+            if (isMouseDown) {
+                isMouseDown = false;
+                mapContainer.style.cursor = 'grab';
+            }
+        });
+
+        // ===== Колесо мыши (зум) =====
+
+        mapContainer.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.05 : 0.05;
+            scale = Math.min(Math.max(scale + delta, MIN_SCALE), MAX_SCALE);
+            applyTransform();
+        }, { passive: false });
+
+        // ===== Двойной клик (сброс) =====
+
+        mapContainer.addEventListener('dblclick', function(e) {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            applyTransform();
+        });
+
+        // ===== Сброс при загрузке карты =====
+
+        mapFrame.addEventListener('load', function() {
+            setTimeout(() => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                applyTransform();
+            }, 300);
+        });
+
+        // ================================================================
 
         // === ПОПАП ===
         const popup = document.getElementById('popup-overlay');
