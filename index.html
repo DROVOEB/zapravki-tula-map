@@ -97,7 +97,7 @@
             transform: scale(0.95);
         }
 
-        /* --- КАРТА --- */
+        /* --- КАРТА (с улучшенным touch) --- */
         #map-container {
             flex: 1;
             position: relative;
@@ -107,6 +107,7 @@
             background: #0a0a0c;
             box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
             min-height: 0;
+            touch-action: none; /* Улучшает обработку жестов */
         }
 
         #map-container iframe {
@@ -117,6 +118,7 @@
             height: 100%;
             border: none;
             filter: saturate(1.1) contrast(1.02);
+            touch-action: none; /* Передаём управление жестами карте */
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -150,7 +152,7 @@
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ И УДОБНАЯ) --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
@@ -494,7 +496,7 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- АДАПТИВ ДЛЯ ТЕЛЕФОНА --- */
+        /* --- АДАПТИВ --- */
         @media (max-width: 480px) {
             #header {
                 padding: 10px 14px;
@@ -637,7 +639,7 @@
             </div>
         </div>
 
-        <!-- КАРТА -->
+        <!-- КАРТА (с исправленным URL для одного пальца) -->
         <div id="map-container">
             <div id="loading">
                 <div class="spinner"></div>
@@ -646,7 +648,7 @@
             <iframe id="map-frame" src=""></iframe>
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ) -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
@@ -727,7 +729,11 @@
         }
 
         // === КОНФИГУРАЦИЯ ===
-        const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
+        // ========== ГЛАВНОЕ ИСПРАВЛЕНИЕ ==========
+        // Добавлен параметр gestureHandling=cooperative — теперь карта двигается ОДНИМ пальцем
+        const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F&gestureHandling=cooperative';
+        // =========================================
+
         const STATIONS_DATA = { green: 12 };
         const RATING = { value: 4.8 };
         const VIEWS = 7518;
