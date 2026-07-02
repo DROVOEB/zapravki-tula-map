@@ -41,7 +41,7 @@
         /* --- ШАПКА --- */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
-            padding: 8px 12px;
+            padding: 10px 14px;
             flex-shrink: 0;
             z-index: 10;
             box-shadow: 0 2px 20px rgba(255, 140, 0, 0.2);
@@ -55,7 +55,7 @@
         }
 
         #header h1 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -66,7 +66,7 @@
         }
 
         #header h1 span {
-            font-size: 17px;
+            font-size: 18px;
         }
 
         #greeting {
@@ -81,7 +81,7 @@
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 30px;
             font-size: 12px;
             font-weight: 700;
@@ -148,20 +148,20 @@
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ (ПОВЫШЕ) --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
-            padding: 4px 8px;
+            padding: 8px 12px;
             flex-shrink: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 2px 4px;
-            min-height: 32px;
-            font-size: 10px;
+            gap: 4px 6px;
+            min-height: 44px;
+            font-size: 11px;
             color: #666;
             font-weight: 500;
             width: 100%;
@@ -171,21 +171,21 @@
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 3px 6px;
+            gap: 4px 8px;
             flex: 1 1 auto;
         }
 
         #footer-right {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
         #footer .date {
             font-weight: 700;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 9px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             gap: 2px;
@@ -197,39 +197,39 @@
         #rating-container {
             display: flex;
             align-items: center;
-            gap: 2px;
-            padding: 2px 5px;
-            border-radius: 16px;
+            gap: 3px;
+            padding: 3px 8px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             background: rgba(255, 255, 255, 0.02);
             white-space: nowrap;
         }
 
         .status-dot {
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #00E676;
-            box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
             animation: pulse-green 2s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         @keyframes pulse-green {
             0% { box-shadow: 0 0 2px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
-            50% { box-shadow: 0 0 12px rgba(0, 230, 118, 0.5); transform: scale(1.1); }
+            50% { box-shadow: 0 0 14px rgba(0, 230, 118, 0.5); transform: scale(1.1); }
             100% { box-shadow: 0 0 2px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
         }
 
         .status-label {
-            font-size: 8px;
+            font-size: 9px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.5);
         }
 
         .status-count,
         #views-counter .count {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             color: #fff;
         }
@@ -239,13 +239,13 @@
         }
 
         #views-counter .label {
-            font-size: 7px;
+            font-size: 8px;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.3);
         }
 
         #views-counter .icon {
-            font-size: 8px;
+            font-size: 9px;
             color: rgba(255, 255, 255, 0.3);
         }
 
@@ -255,7 +255,7 @@
         }
 
         .star {
-            font-size: 9px;
+            font-size: 10px;
             color: #444;
         }
 
@@ -264,7 +264,7 @@
         }
 
         .rating-text {
-            font-size: 7px;
+            font-size: 8px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.3);
         }
@@ -277,9 +277,9 @@
             color: #FF8C00;
             text-decoration: none;
             font-weight: 700;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 16px;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
             background: rgba(255, 140, 0, 0.06);
             border: 1px solid rgba(255, 140, 0, 0.06);
             white-space: nowrap;
@@ -290,9 +290,9 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.4);
-            padding: 2px 6px;
-            border-radius: 16px;
-            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 10px;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
@@ -485,73 +485,73 @@
         /* --- СПЕЦИАЛЬНО ДЛЯ ТЕЛЕФОНА --- */
         @media (max-width: 420px) {
             #header {
-                padding: 6px 10px;
+                padding: 8px 12px;
             }
             #header h1 {
-                font-size: 13px;
+                font-size: 14px;
             }
             #header h1 span {
-                font-size: 15px;
+                font-size: 16px;
             }
             #greeting {
-                font-size: 8px;
+                font-size: 9px;
             }
             #refresh-btn {
                 font-size: 10px;
-                padding: 3px 10px;
+                padding: 4px 12px;
             }
             #footer {
-                padding: 3px 6px;
-                min-height: 28px;
+                padding: 6px 10px;
+                min-height: 38px;
             }
             #footer .date {
-                font-size: 8px;
+                font-size: 9px;
             }
             .status-label {
-                font-size: 7px;
+                font-size: 8px;
             }
             .status-count,
             #views-counter .count {
-                font-size: 9px;
+                font-size: 10px;
             }
             .status-dot {
-                width: 4px;
-                height: 4px;
+                width: 5px;
+                height: 5px;
             }
             #views-counter .label {
-                font-size: 6px;
-            }
-            #views-counter .icon {
                 font-size: 7px;
             }
-            .star {
+            #views-counter .icon {
                 font-size: 8px;
+            }
+            .star {
+                font-size: 9px;
             }
             .rating-text {
-                font-size: 6px;
+                font-size: 7px;
             }
             #footer a {
-                font-size: 9px;
-                padding: 2px 5px;
+                font-size: 10px;
+                padding: 3px 7px;
             }
             #share-btn {
-                font-size: 8px;
-                padding: 2px 5px;
+                font-size: 9px;
+                padding: 3px 7px;
             }
             .status-indicator,
             #views-counter,
             #rating-container {
-                padding: 1px 4px;
+                padding: 2px 6px;
                 gap: 2px;
             }
         }
 
         @media (max-width: 360px) {
             #header h1 {
-                font-size: 11px;
+                font-size: 12px;
             }
             #header h1 span {
-                font-size: 13px;
+                font-size: 14px;
             }
             #greeting {
                 display: none;
@@ -566,8 +566,8 @@
                 display: none;
             }
             #footer {
-                min-height: 24px;
-                padding: 2px 4px;
+                min-height: 32px;
+                padding: 4px 8px;
             }
         }
     </style>
@@ -594,7 +594,7 @@
             <iframe id="map-frame" src=""></iframe>
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ (ПОВЫШЕ) -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
@@ -632,7 +632,7 @@
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
             <h2><span>⛽</span> Подпишись!</h2>
-            <p class="subtitle">Чтобы всегда знать, <strong>где есть бензин</strong> в Туле.</p>
+            <p class="subtitle">Чтобы zawsze знать, <strong>где есть бензин</strong> в Туле.</p>
             <a href="https://t.me/Zapravoil" target="_blank" id="popup-button">
                 Перейти в канал →
             </a>
