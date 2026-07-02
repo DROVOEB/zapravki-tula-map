@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             overflow: hidden;
             background: #08080a;
@@ -97,7 +98,7 @@
             transform: scale(0.95);
         }
 
-        /* --- КАРТА (с исправлением для одного пальца) --- */
+        /* --- КАРТА (исправлено: двигается ТОЛЬКО внутри контейнера) --- */
         #map-container {
             flex: 1;
             position: relative;
@@ -107,8 +108,9 @@
             background: #0a0a0c;
             box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
             min-height: 0;
-            touch-action: none; /* ОТКЛЮЧАЕМ СТАНДАРТНЫЕ ЖЕСТЫ */
+            touch-action: none;
             cursor: grab;
+            z-index: 1;
         }
 
         #map-container iframe {
@@ -119,8 +121,9 @@
             height: 100%;
             border: none;
             filter: saturate(1.1) contrast(1.02);
-            pointer-events: none; /* ОТКЛЮЧАЕМ СОБЫТИЯ МЫШИ НА iframe */
+            pointer-events: none;
             touch-action: none;
+            will-change: transform;
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -145,8 +148,12 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         #loading p {
@@ -223,9 +230,18 @@
         }
 
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
-            50% { box-shadow: 0 0 18px rgba(0, 230, 118, 0.6); transform: scale(1.1); }
-            100% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
+            0% {
+                box-shadow: 0 0 4px rgba(0, 230, 118, 0.2);
+                transform: scale(0.95);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(0, 230, 118, 0.6);
+                transform: scale(1.1);
+            }
+            100% {
+                box-shadow: 0 0 4px rgba(0, 230, 118, 0.2);
+                transform: scale(0.95);
+            }
         }
 
         .status-label {
@@ -798,6 +814,11 @@
                 setTimeout(() => {
                     updateData();
                     fixHeight();
+                    // Сброс позиции при обновлении
+                    translateX = 0;
+                    translateY = 0;
+                    scale = 1;
+                    applyTransform();
                 }, 200);
             }, 150);
         }
@@ -805,6 +826,13 @@
         mapFrame.addEventListener('load', function() {
             loading.style.display = 'none';
             fixHeight();
+            // Сброс позиции после загрузки
+            setTimeout(() => {
+                translateX = 0;
+                translateY = 0;
+                scale = 1;
+                applyTransform();
+            }, 300);
         });
 
         setTimeout(function checkLoaded() {
@@ -816,44 +844,44 @@
         }, 5000);
 
         // ================================================================
-        // ========== УПРАВЛЕНИЕ КАРТОЙ ОДНИМ ПАЛЬЦЕМ ==========
+        // ========== УПРАВЛЕНИЕ КАРТОЙ ТОЛЬКО ВНУТРИ КОНТЕЙНЕРА ==========
         // ================================================================
 
-        let isDragging = false;
-        let startX = 0,
-            startY = 0;
-        let scrollLeft = 0,
-            scrollTop = 0;
-        let isZooming = false;
-        let lastTouchDist = 0;
-        let lastScale = 1;
-
-        // Эмулируем перемещение через transform
         let translateX = 0,
             translateY = 0;
         let scale = 1;
         const MIN_SCALE = 0.8;
         const MAX_SCALE = 1.8;
 
-        // Применяем трансформацию к iframe
+        let isDragging = false;
+        let startX = 0,
+            startY = 0;
+        let startTranslateX = 0,
+            startTranslateY = 0;
+
+        let isZooming = false;
+        let lastTouchDist = 0;
+        let lastScale = 1;
+
         function applyTransform() {
             mapFrame.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
             mapFrame.style.transformOrigin = 'center center';
         }
 
-        // ===== Touch события (мобильные) =====
+        // ===== Touch события (только для mapContainer) =====
 
         mapContainer.addEventListener('touchstart', function(e) {
+            // Игнорируем, если касание началось не на контейнере
+            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
+
             const touches = e.touches;
             if (touches.length === 1) {
-                // Перемещение одним пальцем
                 isDragging = true;
                 const touch = touches[0];
                 startX = touch.clientX - translateX;
                 startY = touch.clientY - translateY;
                 mapContainer.style.cursor = 'grabbing';
             } else if (touches.length === 2) {
-                // Зум двумя пальцами
                 isZooming = true;
                 const dx = touches[0].clientX - touches[1].clientX;
                 const dy = touches[0].clientY - touches[1].clientY;
@@ -863,6 +891,9 @@
         }, { passive: true });
 
         mapContainer.addEventListener('touchmove', function(e) {
+            // Игнорируем, если событие не на контейнере
+            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
+
             e.preventDefault();
             const touches = e.touches;
 
@@ -871,7 +902,7 @@
                 translateX = touch.clientX - startX;
                 translateY = touch.clientY - startY;
 
-                // Ограничения, чтобы не утащить карту за край
+                // Ограничения
                 const maxX = 150;
                 const maxY = 200;
                 translateX = Math.min(Math.max(translateX, -maxX), maxX);
@@ -899,30 +930,22 @@
             lastTouchDist = 0;
         }, { passive: true });
 
-        // ===== Mouse события (десктоп) =====
-
-        let isMouseDown = false;
-        let mouseStartX = 0,
-            mouseStartY = 0;
-        let mouseStartTranslateX = 0,
-            mouseStartTranslateY = 0;
+        // ===== Mouse события (только для mapContainer) =====
 
         mapContainer.addEventListener('mousedown', function(e) {
+            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             if (e.target.closest('button') || e.target.closest('a')) return;
-            isMouseDown = true;
-            mouseStartX = e.clientX;
-            mouseStartY = e.clientY;
-            mouseStartTranslateX = translateX;
-            mouseStartTranslateY = translateY;
+
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
             mapContainer.style.cursor = 'grabbing';
         });
 
         window.addEventListener('mousemove', function(e) {
-            if (!isMouseDown) return;
-            const dx = e.clientX - mouseStartX;
-            const dy = e.clientY - mouseStartY;
-            translateX = mouseStartTranslateX + dx;
-            translateY = mouseStartTranslateY + dy;
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
 
             const maxX = 150;
             const maxY = 200;
@@ -933,8 +956,8 @@
         });
 
         window.addEventListener('mouseup', function() {
-            if (isMouseDown) {
-                isMouseDown = false;
+            if (isDragging) {
+                isDragging = false;
                 mapContainer.style.cursor = 'grab';
             }
         });
@@ -942,6 +965,7 @@
         // ===== Колесо мыши (зум) =====
 
         mapContainer.addEventListener('wheel', function(e) {
+            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             e.preventDefault();
             const delta = e.deltaY > 0 ? -0.05 : 0.05;
             scale = Math.min(Math.max(scale + delta, MIN_SCALE), MAX_SCALE);
@@ -951,22 +975,12 @@
         // ===== Двойной клик (сброс) =====
 
         mapContainer.addEventListener('dblclick', function(e) {
+            if (e.target !== mapContainer && !mapContainer.contains(e.target)) return;
             if (e.target.closest('button') || e.target.closest('a')) return;
             scale = 1;
             translateX = 0;
             translateY = 0;
             applyTransform();
-        });
-
-        // ===== Сброс при загрузке карты =====
-
-        mapFrame.addEventListener('load', function() {
-            setTimeout(() => {
-                scale = 1;
-                translateX = 0;
-                translateY = 0;
-                applyTransform();
-            }, 300);
         });
 
         // ================================================================
