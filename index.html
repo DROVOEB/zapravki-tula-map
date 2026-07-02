@@ -41,7 +41,7 @@
         /* --- ШАПКА --- */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
-            padding: 10px 14px;
+            padding: 12px 16px;
             flex-shrink: 0;
             z-index: 10;
             box-shadow: 0 2px 20px rgba(255, 140, 0, 0.2);
@@ -51,29 +51,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
+            gap: 8px;
         }
 
         #header h1 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             color: #fff;
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
             white-space: nowrap;
         }
 
         #header h1 span {
-            font-size: 18px;
+            font-size: 20px;
         }
 
         #greeting {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.8);
-            margin-left: 2px;
+            margin-left: 4px;
             white-space: nowrap;
         }
 
@@ -81,14 +81,16 @@
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 5px 14px;
+            padding: 8px 18px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             flex-shrink: 0;
             white-space: nowrap;
+            min-height: 40px;
+            min-width: 80px;
         }
 
         #refresh-btn:active {
@@ -99,7 +101,7 @@
         #map-container {
             flex: 1;
             position: relative;
-            margin: 4px 6px 4px 6px;
+            margin: 4px 8px 4px 8px;
             border-radius: 16px;
             overflow: hidden;
             background: #0a0a0c;
@@ -129,13 +131,13 @@
         }
 
         #loading .spinner {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             border: 3px solid rgba(255, 140, 0, 0.08);
             border-top: 3px solid #FF8C00;
             border-radius: 50%;
             animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            margin: 0 auto 6px;
+            margin: 0 auto 8px;
         }
 
         @keyframes spin {
@@ -144,24 +146,24 @@
         }
 
         #loading p {
-            font-size: 10px;
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ (ПОВЫШЕ) --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ И УДОБНАЯ) --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
-            padding: 8px 12px;
+            padding: 12px 14px;
             flex-shrink: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 4px 6px;
-            min-height: 44px;
-            font-size: 11px;
+            gap: 8px 10px;
+            min-height: 60px;
+            font-size: 13px;
             color: #666;
             font-weight: 500;
             width: 100%;
@@ -171,24 +173,24 @@
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 4px 8px;
+            gap: 6px 10px;
             flex: 1 1 auto;
         }
 
         #footer-right {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             flex-shrink: 0;
         }
 
         #footer .date {
             font-weight: 700;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 10px;
+            font-size: 12px;
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: 4px;
             white-space: nowrap;
         }
 
@@ -197,39 +199,40 @@
         #rating-container {
             display: flex;
             align-items: center;
-            gap: 3px;
-            padding: 3px 8px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            background: rgba(255, 255, 255, 0.02);
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
             white-space: nowrap;
+            min-height: 34px;
         }
 
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #00E676;
-            box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+            box-shadow: 0 0 14px rgba(0, 230, 118, 0.4);
             animation: pulse-green 2s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 2px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
-            50% { box-shadow: 0 0 14px rgba(0, 230, 118, 0.5); transform: scale(1.1); }
-            100% { box-shadow: 0 0 2px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
+            0% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
+            50% { box-shadow: 0 0 18px rgba(0, 230, 118, 0.6); transform: scale(1.1); }
+            100% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
         }
 
         .status-label {
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .status-count,
         #views-counter .count {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 800;
             color: #fff;
         }
@@ -239,23 +242,23 @@
         }
 
         #views-counter .label {
-            font-size: 8px;
+            font-size: 10px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         #views-counter .icon {
-            font-size: 9px;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .stars {
             display: flex;
-            gap: 1px;
+            gap: 2px;
         }
 
         .star {
-            font-size: 10px;
+            font-size: 13px;
             color: #444;
         }
 
@@ -264,9 +267,9 @@
         }
 
         .rating-text {
-            font-size: 8px;
+            font-size: 10px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .rating-text strong {
@@ -277,27 +280,33 @@
             color: #FF8C00;
             text-decoration: none;
             font-weight: 700;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 20px;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 24px;
             background: rgba(255, 140, 0, 0.06);
             border: 1px solid rgba(255, 140, 0, 0.06);
             white-space: nowrap;
             line-height: 1;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
         }
 
         #share-btn {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.4);
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 10px;
+            padding: 6px 12px;
+            border-radius: 24px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             white-space: nowrap;
             line-height: 1.2;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
         }
 
         .feedback-btn {
@@ -319,74 +328,76 @@
             justify-content: center;
             align-items: center;
             z-index: 999;
-            padding: 16px;
+            padding: 20px;
         }
 
         #popup-content {
             background: rgba(20, 20, 25, 0.95);
             backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 24px 20px;
+            padding: 28px 24px;
             border-radius: 28px;
             text-align: center;
-            max-width: 300px;
+            max-width: 320px;
             width: 100%;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
             position: relative;
         }
 
         #popup-content h2 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 900;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         #popup-content h2 span {
-            font-size: 24px;
+            font-size: 26px;
         }
 
         #popup-content .subtitle {
-            font-size: 13px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.5);
             line-height: 1.4;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
         #popup-button {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             color: #fff;
-            padding: 12px 24px;
+            padding: 14px 28px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
             box-shadow: 0 4px 20px rgba(255, 140, 0, 0.2);
             width: 100%;
             justify-content: center;
+            min-height: 48px;
         }
 
         #popup-close {
             position: absolute;
-            top: 10px;
-            right: 14px;
+            top: 12px;
+            right: 16px;
             background: none;
             border: none;
             color: rgba(255, 255, 255, 0.15);
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
+            padding: 8px;
         }
 
         #popup-timer {
-            font-size: 10px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.1);
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         #popup-timer span {
@@ -407,7 +418,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 16px;
+            padding: 20px;
         }
 
         #feedback-modal.show {
@@ -419,34 +430,34 @@
             backdrop-filter: blur(40px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 24px;
-            padding: 24px 20px;
-            max-width: 340px;
+            padding: 28px 24px;
+            max-width: 360px;
             width: 100%;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
         }
 
         #feedback-content h3 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         #feedback-content .sub {
-            font-size: 12px;
+            font-size: 13px;
             color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         #feedback-content textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             color: #fff;
-            font-size: 13px;
+            font-size: 14px;
             resize: vertical;
-            min-height: 70px;
+            min-height: 80px;
             font-family: 'Inter', sans-serif;
         }
 
@@ -457,19 +468,20 @@
 
         #feedback-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 12px;
         }
 
         #feedback-actions button {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border-radius: 30px;
             border: none;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
+            min-height: 44px;
         }
 
         #feedback-send {
@@ -482,11 +494,77 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- СПЕЦИАЛЬНО ДЛЯ ТЕЛЕФОНА --- */
-        @media (max-width: 420px) {
+        /* --- АДАПТИВ ДЛЯ ТЕЛЕФОНА --- */
+        @media (max-width: 480px) {
             #header {
-                padding: 8px 12px;
+                padding: 10px 14px;
             }
+            #header h1 {
+                font-size: 16px;
+            }
+            #header h1 span {
+                font-size: 18px;
+            }
+            #greeting {
+                font-size: 10px;
+            }
+            #refresh-btn {
+                font-size: 13px;
+                padding: 6px 14px;
+                min-height: 36px;
+                min-width: 70px;
+            }
+            #footer {
+                padding: 10px 12px;
+                min-height: 54px;
+                gap: 6px 8px;
+            }
+            #footer .date {
+                font-size: 11px;
+            }
+            .status-label {
+                font-size: 10px;
+            }
+            .status-count,
+            #views-counter .count {
+                font-size: 13px;
+            }
+            .status-dot {
+                width: 7px;
+                height: 7px;
+            }
+            #views-counter .label {
+                font-size: 9px;
+            }
+            #views-counter .icon {
+                font-size: 11px;
+            }
+            .star {
+                font-size: 12px;
+            }
+            .rating-text {
+                font-size: 9px;
+            }
+            #footer a {
+                font-size: 12px;
+                padding: 5px 10px;
+                min-height: 32px;
+            }
+            #share-btn {
+                font-size: 11px;
+                padding: 5px 10px;
+                min-height: 32px;
+            }
+            .status-indicator,
+            #views-counter,
+            #rating-container {
+                padding: 4px 10px;
+                min-height: 30px;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 380px) {
             #header h1 {
                 font-size: 14px;
             }
@@ -494,80 +572,54 @@
                 font-size: 16px;
             }
             #greeting {
-                font-size: 9px;
+                display: none;
             }
             #refresh-btn {
-                font-size: 10px;
-                padding: 4px 12px;
+                font-size: 11px;
+                padding: 4px 10px;
+                min-height: 32px;
+                min-width: 60px;
             }
             #footer {
-                padding: 6px 10px;
-                min-height: 38px;
-            }
-            #footer .date {
-                font-size: 9px;
+                padding: 8px 10px;
+                min-height: 48px;
             }
             .status-label {
-                font-size: 8px;
+                font-size: 9px;
             }
             .status-count,
             #views-counter .count {
-                font-size: 10px;
+                font-size: 12px;
             }
             .status-dot {
-                width: 5px;
-                height: 5px;
+                width: 6px;
+                height: 6px;
             }
             #views-counter .label {
-                font-size: 7px;
-            }
-            #views-counter .icon {
-                font-size: 8px;
-            }
-            .star {
-                font-size: 9px;
+                display: none;
             }
             .rating-text {
-                font-size: 7px;
+                display: none;
             }
             #footer a {
-                font-size: 10px;
-                padding: 3px 7px;
+                font-size: 11px;
+                padding: 4px 8px;
+                min-height: 28px;
             }
             #share-btn {
-                font-size: 9px;
-                padding: 3px 7px;
+                font-size: 10px;
+                padding: 4px 8px;
+                min-height: 28px;
             }
             .status-indicator,
             #views-counter,
             #rating-container {
-                padding: 2px 6px;
-                gap: 2px;
+                padding: 3px 8px;
+                min-height: 26px;
+                gap: 3px;
             }
-        }
-
-        @media (max-width: 360px) {
-            #header h1 {
-                font-size: 12px;
-            }
-            #header h1 span {
-                font-size: 14px;
-            }
-            #greeting {
-                display: none;
-            }
-            .status-label {
-                display: none;
-            }
-            #views-counter .label {
-                display: none;
-            }
-            .rating-text {
-                display: none;
-            }
-            #footer {
-                min-height: 32px;
-                padding: 4px 8px;
+            .star {
+                font-size: 10px;
             }
         }
     </style>
@@ -594,7 +646,7 @@
             <iframe id="map-frame" src=""></iframe>
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ (ПОВЫШЕ) -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ) -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
