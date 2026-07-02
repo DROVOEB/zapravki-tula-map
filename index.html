@@ -6,18 +6,18 @@
     <title>Заправки Тула</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* --- RESET --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html, body {
+
+        html,
+        body {
             height: 100%;
             overflow: hidden;
         }
-        
+
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background: #08080a;
@@ -25,9 +25,9 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            height: 100dvh; /* Для мобильных браузеров */
+            height: 100dvh;
         }
-        
+
         #app {
             display: flex;
             flex-direction: column;
@@ -35,8 +35,8 @@
             background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
             flex: 1;
         }
-        
-        /* --- ШАПКА (ОРАНЖЕВАЯ) --- */
+
+        /* --- ШАПКА --- */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             padding: 12px 16px 10px 16px;
@@ -46,7 +46,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         #header::before {
             content: '';
             position: absolute;
@@ -58,7 +58,7 @@
             border-radius: 50%;
             pointer-events: none;
         }
-        
+
         #header-top {
             display: flex;
             align-items: center;
@@ -68,7 +68,7 @@
             gap: 8px;
             flex-wrap: nowrap;
         }
-        
+
         #header h1 {
             font-size: clamp(16px, 4vw, 22px);
             font-weight: 900;
@@ -80,11 +80,11 @@
             letter-spacing: -0.5px;
             white-space: nowrap;
         }
-        
+
         #header h1 span {
             font-size: clamp(20px, 5vw, 26px);
         }
-        
+
         #greeting {
             font-size: clamp(10px, 2.5vw, 13px);
             font-weight: 600;
@@ -95,8 +95,7 @@
             white-space: nowrap;
             margin-left: 4px;
         }
-        
-        /* --- КНОПКА ОБНОВИТЬ --- */
+
         #refresh-btn {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -115,16 +114,16 @@
             flex-shrink: 0;
             white-space: nowrap;
         }
-        
+
         #refresh-btn:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: scale(1.02);
         }
-        
+
         #refresh-btn:active {
             transform: scale(0.95);
         }
-        
+
         /* --- КАРТА --- */
         #map-container {
             flex: 1;
@@ -133,10 +132,10 @@
             border-radius: 20px;
             overflow: hidden;
             background: #0a0a0c;
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.6), 0 8px 30px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.6), 0 8px 30px rgba(0, 0, 0, 0.5);
             min-height: 0;
         }
-        
+
         #map-container iframe {
             position: absolute;
             top: 0;
@@ -146,7 +145,7 @@
             border: none;
             filter: saturate(1.1) contrast(1.02);
         }
-        
+
         /* --- ЗАГРУЗКА --- */
         #loading {
             position: absolute;
@@ -157,7 +156,7 @@
             z-index: 5;
             pointer-events: none;
         }
-        
+
         #loading .spinner {
             width: 40px;
             height: 40px;
@@ -167,60 +166,66 @@
             animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
             margin: 0 auto 10px;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         #loading p {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.15);
             letter-spacing: 0.5px;
         }
-        
-        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
+
+        /* --- НИЖНЯЯ ПАНЕЛЬ (ТЕПЕРЬ ВСЕГДА ВИДНА) --- */
         #footer {
-            background: rgba(12, 12, 16, 0.9);
+            background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
-            padding: 8px 12px;
+            padding: 10px 12px;
             flex-shrink: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 6px 10px;
+            gap: 6px 8px;
             font-size: 12px;
             color: #666;
             font-weight: 500;
+            min-height: 48px;
         }
-        
+
         #footer-left {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px 10px;
+            flex: 1 1 auto;
         }
-        
+
         #footer-right {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 6px;
+            flex-shrink: 0;
         }
-        
+
         #footer .date {
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
             font-size: clamp(11px, 2.5vw, 14px);
             display: flex;
             align-items: center;
             gap: 4px;
             white-space: nowrap;
         }
-        
-        /* --- СЧЁТЧИКИ --- */
+
         .status-indicator,
         #views-counter,
         #rating-container {
@@ -229,11 +234,12 @@
             gap: 4px;
             padding: 3px 10px 3px 8px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
             white-space: nowrap;
+            flex-shrink: 0;
         }
-        
+
         .status-dot {
             width: 7px;
             height: 7px;
@@ -243,69 +249,76 @@
             animation: pulse-green 2s ease-in-out infinite;
             flex-shrink: 0;
         }
-        
+
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
-            50% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.6); transform: scale(1.1); }
-            100% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
+            0% {
+                box-shadow: 0 0 4px rgba(0, 230, 118, 0.2);
+                transform: scale(0.95);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 230, 118, 0.6);
+                transform: scale(1.1);
+            }
+            100% {
+                box-shadow: 0 0 4px rgba(0, 230, 118, 0.2);
+                transform: scale(0.95);
+            }
         }
-        
+
         .status-label {
             font-size: clamp(10px, 2vw, 12px);
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
         }
-        
+
         .status-count,
         #views-counter .count {
-            font-size: clamp(12px, 2.8vw, 15px);
+            font-size: clamp(13px, 2.8vw, 15px);
             font-weight: 800;
             color: #fff;
         }
-        
+
         .status-count.glowing {
             color: #00E676;
             text-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
         }
-        
+
         #views-counter .label {
             font-size: clamp(9px, 1.8vw, 11px);
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
-        
+
         #views-counter .icon {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
-        
-        /* --- РЕЙТИНГ --- */
+
         .stars {
             display: flex;
             gap: 1px;
         }
-        
+
         .star {
             font-size: clamp(12px, 2.5vw, 16px);
-            color: #333;
+            color: #444;
         }
-        
+
         .star.active {
             color: #FF8C00;
             text-shadow: 0 0 12px rgba(255, 140, 0, 0.2);
         }
-        
+
         .rating-text {
             font-size: clamp(9px, 1.8vw, 12px);
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.4);
         }
-        
+
         .rating-text strong {
             color: rgba(255, 255, 255, 0.8);
         }
-        
-        /* --- КНОПКИ --- */
+
         #footer a {
             color: #FF8C00;
             text-decoration: none;
@@ -313,19 +326,19 @@
             font-size: clamp(11px, 2.2vw, 14px);
             padding: 3px 8px;
             border-radius: 30px;
-            background: rgba(255, 140, 0, 0.04);
-            border: 1px solid rgba(255, 140, 0, 0.04);
+            background: rgba(255, 140, 0, 0.06);
+            border: 1px solid rgba(255, 140, 0, 0.06);
             white-space: nowrap;
         }
-        
+
         #footer a:hover {
             background: rgba(255, 140, 0, 0.12);
         }
-        
+
         #share-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
             padding: 3px 10px;
             border-radius: 30px;
             font-size: clamp(10px, 2vw, 12px);
@@ -334,26 +347,26 @@
             font-family: 'Inter', sans-serif;
             white-space: nowrap;
         }
-        
+
         #share-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.08);
             color: #fff;
         }
-        
+
         .feedback-btn {
-            background: rgba(255, 140, 0, 0.04) !important;
-            border-color: rgba(255, 140, 0, 0.06) !important;
+            background: rgba(255, 140, 0, 0.06) !important;
+            border-color: rgba(255, 140, 0, 0.08) !important;
             color: #FF8C00 !important;
         }
-        
-        /* --- ПОПАП (АДАПТИВНЫЙ) --- */
+
+        /* --- ПОПАП --- */
         #popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(16px);
             display: flex;
             justify-content: center;
@@ -361,20 +374,20 @@
             z-index: 999;
             padding: 20px;
         }
-        
+
         #popup-content {
-            background: rgba(20, 20, 25, 0.9);
+            background: rgba(20, 20, 25, 0.95);
             backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 32px 24px 28px;
             border-radius: 32px;
             text-align: center;
             max-width: 340px;
             width: 100%;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
             position: relative;
         }
-        
+
         #popup-content h2 {
             font-size: clamp(22px, 5vw, 26px);
             font-weight: 900;
@@ -384,18 +397,18 @@
             justify-content: center;
             gap: 8px;
         }
-        
+
         #popup-content h2 span {
             font-size: clamp(26px, 6vw, 30px);
         }
-        
+
         #popup-content .subtitle {
             font-size: clamp(13px, 3vw, 15px);
             color: rgba(255, 255, 255, 0.5);
             line-height: 1.5;
             margin-bottom: 20px;
         }
-        
+
         #popup-button {
             display: inline-flex;
             align-items: center;
@@ -411,7 +424,7 @@
             width: 100%;
             justify-content: center;
         }
-        
+
         #popup-close {
             position: absolute;
             top: 12px;
@@ -423,19 +436,19 @@
             cursor: pointer;
             padding: 4px;
         }
-        
+
         #popup-timer {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.1);
             margin-top: 14px;
         }
-        
+
         #popup-timer span {
             color: #FF8C00;
             font-weight: 700;
         }
-        
-        /* --- МОДАЛКА ФОРМЫ --- */
+
+        /* --- МОДАЛКА --- */
         #feedback-modal {
             display: none;
             position: fixed;
@@ -443,41 +456,41 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(16px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
-        
+
         #feedback-modal.show {
             display: flex;
         }
-        
+
         #feedback-content {
             background: rgba(20, 20, 25, 0.95);
             backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 28px;
             padding: 28px 24px;
             max-width: 380px;
             width: 100%;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
         }
-        
+
         #feedback-content h3 {
             font-size: clamp(20px, 4.5vw, 24px);
             font-weight: 800;
             margin-bottom: 4px;
         }
-        
+
         #feedback-content .sub {
             font-size: 14px;
             color: rgba(255, 255, 255, 0.4);
             margin-bottom: 16px;
         }
-        
+
         #feedback-content textarea {
             width: 100%;
             padding: 12px 14px;
@@ -490,18 +503,18 @@
             min-height: 80px;
             font-family: 'Inter', sans-serif;
         }
-        
+
         #feedback-content textarea:focus {
             outline: none;
             border-color: rgba(255, 140, 0, 0.3);
         }
-        
+
         #feedback-actions {
             display: flex;
             gap: 10px;
             margin-top: 14px;
         }
-        
+
         #feedback-actions button {
             flex: 1;
             padding: 12px;
@@ -512,18 +525,18 @@
             cursor: pointer;
             font-family: 'Inter', sans-serif;
         }
-        
+
         #feedback-send {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             color: #fff;
         }
-        
+
         #feedback-cancel {
             background: rgba(255, 255, 255, 0.03);
             color: rgba(255, 255, 255, 0.4);
         }
-        
-        /* --- АДАПТИВ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ --- */
+
+        /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 420px) {
             #header {
                 padding: 8px 12px;
@@ -535,11 +548,6 @@
             #header h1 {
                 font-size: 15px;
             }
-            .status-indicator,
-            #views-counter,
-            #rating-container {
-                padding: 2px 6px;
-            }
             #footer {
                 padding: 6px 8px;
                 gap: 4px;
@@ -548,27 +556,34 @@
                 margin: 4px 6px 6px 6px;
                 border-radius: 16px;
             }
+            .status-indicator,
+            #views-counter,
+            #rating-container {
+                padding: 2px 8px;
+            }
         }
-        
+
         @media (max-width: 360px) {
             #header h1 {
                 font-size: 13px;
             }
             .status-label {
-                display: none;
+                font-size: 9px;
             }
             #footer .date {
                 font-size: 10px;
             }
             #views-counter .label {
-                display: none;
+                font-size: 9px;
             }
             .rating-text {
-                display: none;
+                font-size: 9px;
+            }
+            .star {
+                font-size: 11px;
             }
         }
-        
-        /* --- СКРОЛЛ НЕ НУЖЕН --- */
+
         ::-webkit-scrollbar {
             display: none;
         }
@@ -586,7 +601,7 @@
                 <button id="refresh-btn" onclick="refreshMap()">↻</button>
             </div>
         </div>
-        
+
         <!-- КАРТА -->
         <div id="map-container">
             <div id="loading">
@@ -595,7 +610,7 @@
             </div>
             <iframe id="map-frame" src=""></iframe>
         </div>
-        
+
         <!-- НИЖНЯЯ ПАНЕЛЬ -->
         <div id="footer">
             <div id="footer-left">
@@ -634,7 +649,7 @@
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
             <h2><span>⛽</span> Подпишись!</h2>
-            <p class="subtitle">Чтобы всегда знать, <strong>где есть бензин</strong> в Туле.</p>
+            <p class="subtitle">Чтобы zawsze знать, <strong>где есть бензин</strong> в Туле.</p>
             <a href="https://t.me/Zapravoil" target="_blank" id="popup-button">
                 Перейти в канал →
             </a>
@@ -642,7 +657,7 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ФОРМЫ -->
+    <!-- МОДАЛКА -->
     <div id="feedback-modal">
         <div id="feedback-content">
             <h3>💬 Сообщить</h3>
@@ -656,14 +671,12 @@
     </div>
 
     <script>
-        // === ССЫЛКА НА КАРТУ ===
+        // === КОНФИГУРАЦИЯ ===
         const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
-        
-        // === ДАННЫЕ ===
         const STATIONS_DATA = { green: 12 };
         const RATING = { value: 4.8 };
         const VIEWS = 7518;
-        
+
         // === ПРИВЕТСТВИЕ ===
         (function setGreeting() {
             const hour = new Date().getHours();
@@ -674,34 +687,35 @@
             else emoji = '🌙 Доброй ночи!';
             document.getElementById('greeting').textContent = emoji;
         })();
-        
+
         // === ДАТА ===
         (function setDate() {
             const now = new Date();
             document.getElementById('time-label').textContent = now.toLocaleDateString('ru-RU', {
-                day: 'numeric', month: 'short'
+                day: 'numeric',
+                month: 'short'
             });
         })();
-        
-        // === ОБНОВЛЕНИЕ ===
+
+        // === ОБНОВЛЕНИЕ ДАННЫХ ===
         function updateData() {
             document.getElementById('green-count').textContent = STATIONS_DATA.green;
             document.getElementById('rating-value').textContent = RATING.value.toFixed(1);
             document.getElementById('views-count').textContent = VIEWS;
         }
         updateData();
-        
+
         // === КАРТА ===
         let loadAttempts = 0;
         const MAX_ATTEMPTS = 3;
         const mapFrame = document.getElementById('map-frame');
         const loading = document.getElementById('loading');
-        
+
         function loadMap() {
             loading.style.display = 'block';
             mapFrame.src = MAP_URL;
         }
-        
+
         function refreshMap() {
             loadAttempts = 0;
             loading.style.display = 'block';
@@ -711,11 +725,11 @@
                 updateData();
             }, 150);
         }
-        
+
         mapFrame.addEventListener('load', function() {
             loading.style.display = 'none';
         });
-        
+
         setTimeout(function checkLoaded() {
             if (loading.style.display !== 'none' && loadAttempts < MAX_ATTEMPTS) {
                 loadAttempts++;
@@ -723,17 +737,17 @@
                 setTimeout(checkLoaded, 4000);
             }
         }, 5000);
-        
+
         // === ПОПАП ===
         const popup = document.getElementById('popup-overlay');
         let countdownInterval;
         let countdownValue = 10;
-        
+
         function closePopup() {
             popup.style.display = 'none';
             if (countdownInterval) clearInterval(countdownInterval);
         }
-        
+
         function startCountdown() {
             const timerElement = document.getElementById('countdown');
             countdownValue = 10;
@@ -747,7 +761,7 @@
                 }
             }, 1000);
         }
-        
+
         // === ШАРИНГ ===
         function sharePage() {
             if (navigator.share) {
@@ -762,55 +776,55 @@
                 }).catch(() => {});
             }
         }
-        
+
         // === ФОРМА ===
         function openFeedback() {
             document.getElementById('feedback-modal').classList.add('show');
         }
-        
+
         function closeFeedback() {
             document.getElementById('feedback-modal').classList.remove('show');
         }
-        
+
         function sendFeedback() {
             const text = document.getElementById('feedback-text').value.trim();
             if (!text) {
                 alert('Напишите сообщение!');
                 return;
             }
-            
+
             const BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';
             const CHAT_ID = 'ВАШ_TELEGRAM_ID';
-            
+
             if (BOT_TOKEN === 'ВАШ_ТОКЕН_БОТА') {
                 alert('✅ Сообщение: "' + text + '"\n\nНастройте бота, чтобы оно приходило вам в Telegram.');
                 closeFeedback();
                 document.getElementById('feedback-text').value = '';
                 return;
             }
-            
+
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
             const message = `📩 *Новое сообщение с карты*\n\n${text}`;
-            
+
             fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
-            })
-            .then(() => {
-                alert('✅ Сообщение отправлено! Спасибо!');
-                closeFeedback();
-                document.getElementById('feedback-text').value = '';
-            })
-            .catch(() => {
-                alert('❌ Ошибка отправки. Попробуйте позже.');
-            });
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
+                })
+                .then(() => {
+                    alert('✅ Сообщение отправлено! Спасибо!');
+                    closeFeedback();
+                    document.getElementById('feedback-text').value = '';
+                })
+                .catch(() => {
+                    alert('❌ Ошибка отправки. Попробуйте позже.');
+                });
         }
-        
+
         // === ЗАПУСК ===
         loadMap();
         startCountdown();
-        
+
         if (sessionStorage.getItem('popupShown') === 'true') {
             popup.style.display = 'none';
             clearInterval(countdownInterval);
