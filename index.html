@@ -6,6 +6,7 @@
     <title>Заправки Тула</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* --- RESET --- */
         * {
             margin: 0;
             padding: 0;
@@ -182,7 +183,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ (ТЕПЕРЬ ВСЕГДА ВИДНА) --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
@@ -536,7 +537,7 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- АДАПТИВНОСТЬ --- */
+        /* --- АДАПТИВ --- */
         @media (max-width: 420px) {
             #header {
                 padding: 8px 12px;
@@ -649,7 +650,7 @@
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
             <h2><span>⛽</span> Подпишись!</h2>
-            <p class="subtitle">Чтобы zawsze знать, <strong>где есть бензин</strong> в Туле.</p>
+            <p class="subtitle">Чтобы всегда знать, <strong>где есть бензин</strong> в Туле.</p>
             <a href="https://t.me/Zapravoil" target="_blank" id="popup-button">
                 Перейти в канал →
             </a>
@@ -703,6 +704,8 @@
             document.getElementById('rating-value').textContent = RATING.value.toFixed(1);
             document.getElementById('views-count').textContent = VIEWS;
         }
+
+        // ВЫЗЫВАЕМ ОБНОВЛЕНИЕ СРАЗУ ПРИ ЗАГРУЗКЕ
         updateData();
 
         // === КАРТА ===
