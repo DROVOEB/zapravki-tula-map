@@ -678,6 +678,37 @@
         const RATING = { value: 4.8 };
         const VIEWS = 7518;
 
+        // === ФУНКЦИЯ ОБНОВЛЕНИЯ ВСЕХ ДАННЫХ ===
+        function updateAllData() {
+            // Обновляем количество заправок
+            const greenEl = document.getElementById('green-count');
+            if (greenEl) greenEl.textContent = STATIONS_DATA.green;
+
+            // Обновляем рейтинг
+            const ratingEl = document.getElementById('rating-value');
+            if (ratingEl) ratingEl.textContent = RATING.value.toFixed(1);
+
+            // Обновляем просмотры
+            const viewsEl = document.getElementById('views-count');
+            if (viewsEl) viewsEl.textContent = VIEWS;
+
+            // Обновляем звёзды
+            const stars = document.querySelectorAll('.star');
+            const rating = RATING.value;
+            stars.forEach((star, index) => {
+                const val = index + 1;
+                if (val <= Math.floor(rating)) {
+                    star.classList.add('active');
+                } else if (val === Math.ceil(rating) && rating % 1 >= 0.5) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+
+            console.log('✅ Все данные обновлены при загрузке');
+        }
+
         // === ПРИВЕТСТВИЕ ===
         (function setGreeting() {
             const hour = new Date().getHours();
@@ -686,27 +717,21 @@
             else if (hour >= 12 && hour < 18) emoji = '🌤️ Добрый день!';
             else if (hour >= 18 && hour < 23) emoji = '🌆 Добрый вечер!';
             else emoji = '🌙 Доброй ночи!';
-            document.getElementById('greeting').textContent = emoji;
+            const el = document.getElementById('greeting');
+            if (el) el.textContent = emoji;
         })();
 
         // === ДАТА ===
         (function setDate() {
             const now = new Date();
-            document.getElementById('time-label').textContent = now.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'short'
-            });
+            const el = document.getElementById('time-label');
+            if (el) {
+                el.textContent = now.toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'short'
+                });
+            }
         })();
-
-        // === ОБНОВЛЕНИЕ ДАННЫХ ===
-        function updateData() {
-            document.getElementById('green-count').textContent = STATIONS_DATA.green;
-            document.getElementById('rating-value').textContent = RATING.value.toFixed(1);
-            document.getElementById('views-count').textContent = VIEWS;
-        }
-
-        // ВЫЗЫВАЕМ ОБНОВЛЕНИЕ СРАЗУ ПРИ ЗАГРУЗКЕ
-        updateData();
 
         // === КАРТА ===
         let loadAttempts = 0;
@@ -725,12 +750,15 @@
             mapFrame.src = '';
             setTimeout(() => {
                 mapFrame.src = MAP_URL;
-                updateData();
+                // Обновляем данные после перезагрузки карты
+                setTimeout(updateAllData, 300);
             }, 150);
         }
 
         mapFrame.addEventListener('load', function() {
             loading.style.display = 'none';
+            // Дополнительное обновление после загрузки iframe
+            setTimeout(updateAllData, 200);
         });
 
         setTimeout(function checkLoaded() {
@@ -825,9 +853,19 @@
         }
 
         // === ЗАПУСК ===
+        // 1. Загружаем карту
         loadMap();
+
+        // 2. Запускаем таймер попапа
         startCountdown();
 
+        // 3. ПОКАЗЫВАЕМ ДАННЫЕ СРАЗУ (не ждём загрузки карты)
+        setTimeout(updateAllData, 50);
+
+        // 4. Ещё раз обновим через 1 секунду для надёжности
+        setTimeout(updateAllData, 1000);
+
+        // 5. Если попап уже показывали — скрываем
         if (sessionStorage.getItem('popupShown') === 'true') {
             popup.style.display = 'none';
             clearInterval(countdownInterval);
