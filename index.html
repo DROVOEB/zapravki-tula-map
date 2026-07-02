@@ -6,15 +6,13 @@
     <title>Заправки Тула</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* --- ОБНУЛЕНИЕ --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             height: 100%;
             overflow: hidden;
             background: #08080a;
@@ -25,19 +23,22 @@
             color: #fff;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            height: 100dvh; /* Для мобильных браузеров */
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         #app {
             display: flex;
             flex-direction: column;
             height: 100%;
-            flex: 1;
+            width: 100%;
             background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
         }
 
-        /* --- ШАПКА (ОРАНЖЕВАЯ) --- */
+        /* --- ШАПКА --- */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             padding: 8px 12px;
@@ -54,7 +55,7 @@
         }
 
         #header h1 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -65,7 +66,7 @@
         }
 
         #header h1 span {
-            font-size: 18px;
+            font-size: 17px;
         }
 
         #greeting {
@@ -98,7 +99,7 @@
         #map-container {
             flex: 1;
             position: relative;
-            margin: 4px 6px;
+            margin: 4px 6px 4px 6px;
             border-radius: 16px;
             overflow: hidden;
             background: #0a0a0c;
@@ -147,7 +148,7 @@
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ (СЖАТАЯ ДЛЯ ТЕЛЕФОНА) --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
@@ -159,10 +160,11 @@
             align-items: center;
             justify-content: space-between;
             gap: 2px 4px;
-            min-height: 34px;
+            min-height: 32px;
             font-size: 10px;
             color: #666;
             font-weight: 500;
+            width: 100%;
         }
 
         #footer-left {
@@ -183,7 +185,7 @@
         #footer .date {
             font-weight: 700;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 10px;
+            font-size: 9px;
             display: flex;
             align-items: center;
             gap: 2px;
@@ -195,9 +197,9 @@
         #rating-container {
             display: flex;
             align-items: center;
-            gap: 3px;
-            padding: 2px 6px;
-            border-radius: 20px;
+            gap: 2px;
+            padding: 2px 5px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             background: rgba(255, 255, 255, 0.02);
             white-space: nowrap;
@@ -220,14 +222,14 @@
         }
 
         .status-label {
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.5);
         }
 
         .status-count,
         #views-counter .count {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             color: #fff;
         }
@@ -237,13 +239,13 @@
         }
 
         #views-counter .label {
-            font-size: 8px;
+            font-size: 7px;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.3);
         }
 
         #views-counter .icon {
-            font-size: 9px;
+            font-size: 8px;
             color: rgba(255, 255, 255, 0.3);
         }
 
@@ -253,7 +255,7 @@
         }
 
         .star {
-            font-size: 10px;
+            font-size: 9px;
             color: #444;
         }
 
@@ -262,7 +264,7 @@
         }
 
         .rating-text {
-            font-size: 8px;
+            font-size: 7px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.3);
         }
@@ -275,9 +277,9 @@
             color: #FF8C00;
             text-decoration: none;
             font-weight: 700;
-            font-size: 11px;
+            font-size: 10px;
             padding: 2px 6px;
-            border-radius: 20px;
+            border-radius: 16px;
             background: rgba(255, 140, 0, 0.06);
             border: 1px solid rgba(255, 140, 0, 0.06);
             white-space: nowrap;
@@ -288,9 +290,9 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.4);
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 16px;
+            font-size: 9px;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
@@ -304,7 +306,7 @@
             color: #FF8C00 !important;
         }
 
-        /* --- ПОПАП (АДАПТИВНЫЙ) --- */
+        /* --- ПОПАП --- */
         #popup-overlay {
             position: fixed;
             top: 0;
@@ -480,78 +482,76 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- СПЕЦИАЛЬНО ДЛЯ ТЕЛЕФОНА: ЕЩЁ БОЛЬШЕ СЖИМАЕМ --- */
+        /* --- СПЕЦИАЛЬНО ДЛЯ ТЕЛЕФОНА --- */
         @media (max-width: 420px) {
             #header {
                 padding: 6px 10px;
             }
             #header h1 {
-                font-size: 14px;
+                font-size: 13px;
             }
             #header h1 span {
-                font-size: 16px;
+                font-size: 15px;
             }
             #greeting {
-                font-size: 9px;
+                font-size: 8px;
             }
             #refresh-btn {
                 font-size: 10px;
                 padding: 3px 10px;
             }
-
             #footer {
                 padding: 3px 6px;
                 min-height: 28px;
-                gap: 2px;
             }
             #footer .date {
-                font-size: 9px;
+                font-size: 8px;
             }
             .status-label {
-                font-size: 8px;
+                font-size: 7px;
             }
             .status-count,
             #views-counter .count {
-                font-size: 10px;
+                font-size: 9px;
             }
             .status-dot {
                 width: 4px;
                 height: 4px;
             }
             #views-counter .label {
-                font-size: 7px;
+                font-size: 6px;
             }
             #views-counter .icon {
-                font-size: 8px;
-            }
-            .star {
-                font-size: 9px;
-            }
-            .rating-text {
                 font-size: 7px;
             }
+            .star {
+                font-size: 8px;
+            }
+            .rating-text {
+                font-size: 6px;
+            }
             #footer a {
-                font-size: 10px;
+                font-size: 9px;
                 padding: 2px 5px;
             }
             #share-btn {
-                font-size: 9px;
-                padding: 2px 6px;
+                font-size: 8px;
+                padding: 2px 5px;
             }
             .status-indicator,
             #views-counter,
             #rating-container {
-                padding: 1px 5px;
+                padding: 1px 4px;
                 gap: 2px;
             }
         }
 
         @media (max-width: 360px) {
             #header h1 {
-                font-size: 12px;
+                font-size: 11px;
             }
             #header h1 span {
-                font-size: 14px;
+                font-size: 13px;
             }
             #greeting {
                 display: none;
@@ -594,7 +594,7 @@
             <iframe id="map-frame" src=""></iframe>
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ (МАКСИМАЛЬНО СЖАТАЯ) -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
@@ -654,6 +654,26 @@
     </div>
 
     <script>
+        // === ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ===
+        let tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            console.log('✅ Telegram Web App инициализирован');
+        } else {
+            console.log('⚠️ Telegram Web App не найден');
+        }
+
+        // === ПРИНУДИТЕЛЬНАЯ УСТАНОВКА ВЫСОТЫ ===
+        function fixHeight() {
+            const vh = window.innerHeight;
+            document.documentElement.style.height = vh + 'px';
+            document.body.style.height = vh + 'px';
+            if (tg) {
+                tg.expand();
+            }
+        }
+
         // === КОНФИГУРАЦИЯ ===
         const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
         const STATIONS_DATA = { green: 12 };
@@ -718,12 +738,16 @@
             mapFrame.src = '';
             setTimeout(() => {
                 mapFrame.src = MAP_URL;
-                setTimeout(updateData, 200);
+                setTimeout(() => {
+                    updateData();
+                    fixHeight();
+                }, 200);
             }, 150);
         }
 
         mapFrame.addEventListener('load', function() {
             loading.style.display = 'none';
+            fixHeight();
         });
 
         setTimeout(function checkLoaded() {
@@ -742,6 +766,7 @@
         function closePopup() {
             popup.style.display = 'none';
             if (countdownInterval) clearInterval(countdownInterval);
+            fixHeight();
         }
 
         function startCountdown() {
@@ -780,6 +805,7 @@
 
         function closeFeedback() {
             document.getElementById('feedback-modal').classList.remove('show');
+            fixHeight();
         }
 
         function sendFeedback() {
@@ -818,6 +844,7 @@
         }
 
         // === ЗАПУСК ===
+        fixHeight();
         loadMap();
         startCountdown();
 
@@ -828,6 +855,15 @@
             popup.style.display = 'flex';
         }
         sessionStorage.setItem('popupShown', 'true');
+
+        // === ПЕРЕХВАТ ИЗМЕНЕНИЙ РАЗМЕРА ===
+        window.addEventListener('resize', fixHeight);
+        window.addEventListener('orientationchange', function() {
+            setTimeout(fixHeight, 300);
+        });
+
+        // === ПЕРИОДИЧЕСКАЯ ПРОВЕРКА ВЫСОТЫ ===
+        setInterval(fixHeight, 500);
     </script>
 </body>
 </html>
