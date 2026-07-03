@@ -653,11 +653,11 @@
                 <div class="status-indicator">
                     <span class="status-dot"></span>
                     <span class="status-label">Есть</span>
-                    <span class="status-count glowing" id="green-count">12</span>
+                    <span class="status-count glowing" id="green-count">13</span>
                 </div>
                 <div id="views-counter">
                     <span class="icon">👁️</span>
-                    <span class="count" id="views-count">7518</span>
+                    <span class="count" id="views-count">7739</span>
                     <span class="label">просмотров</span>
                 </div>
                 <div id="rating-container">
@@ -684,7 +684,7 @@
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
             <h2><span>⛽</span> Подпишись!</h2>
-            <p class="subtitle">Чтобы zawsze знать, <strong>где есть бензин</strong> в Туле.</p>
+            <p class="subtitle">Чтобы знать, <strong>где есть бензин</strong> в Туле.</p>
             <a href="https://t.me/Zapravoil" target="_blank" id="popup-button">
                 Перейти в канал →
             </a>
@@ -728,9 +728,9 @@
 
         // === КОНФИГУРАЦИЯ ===
         const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
-        const STATIONS_DATA = { green: 12 };
+        const STATIONS_DATA = { green: 13 };
         const RATING = { value: 4.8 };
-        const VIEWS = 7518;
+        const VIEWS = 7739;
 
         // === ПРИВЕТСТВИЕ ===
         (function setGreeting() {
@@ -881,18 +881,18 @@
             const message = `📩 *Новое сообщение с карты*\n\n${text}`;
 
             fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
-                })
-                .then(() => {
-                    alert('✅ Сообщение отправлено! Спасибо!');
-                    closeFeedback();
-                    document.getElementById('feedback-text').value = '';
-                })
-                .catch(() => {
-                    alert('❌ Ошибка отправки. Попробуйте позже.');
-                });
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
+            })
+            .then(() => {
+                alert('✅ Сообщение отправлено! Спасибо!');
+                closeFeedback();
+                document.getElementById('feedback-text').value = '';
+            })
+            .catch(() => {
+                alert('❌ Ошибка отправки. Попробуйте позже.');
+            });
         }
 
         // === ЗАПУСК ===
