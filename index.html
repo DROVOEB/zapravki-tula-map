@@ -16,7 +16,6 @@
             height: 100%;
             overflow: hidden;
             background: #08080a;
-            touch-action: none;
         }
 
         body {
@@ -29,7 +28,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            touch-action: none;
+            background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
         }
 
         #app {
@@ -37,19 +36,18 @@
             flex-direction: column;
             height: 100%;
             width: 100%;
-            background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
-            touch-action: none;
+            padding: 8px 10px 8px 10px;
+            gap: 6px;
         }
 
         /* --- ШАПКА --- */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
-            padding: 12px 16px;
+            padding: 10px 16px;
+            border-radius: 16px;
             flex-shrink: 0;
             z-index: 10;
-            box-shadow: 0 2px 20px rgba(255, 140, 0, 0.2);
-            touch-action: none;
-            pointer-events: auto;
+            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.2);
         }
 
         #header-top {
@@ -64,10 +62,9 @@
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: #fff;
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
-            white-space: nowrap;
         }
 
         #header h1 span {
@@ -76,44 +73,84 @@
 
         #greeting {
             font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
             margin-left: 4px;
-            white-space: nowrap;
         }
 
         #refresh-btn {
             background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             flex-shrink: 0;
             white-space: nowrap;
-            min-height: 40px;
-            min-width: 80px;
-            touch-action: manipulation;
+            min-height: 38px;
+            min-width: 60px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        #refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
 
         #refresh-btn:active {
             transform: scale(0.95);
         }
 
-        /* --- КАРТА (Яндекс.Карты) --- */
+        /* --- ПАНЕЛЬ УПРАВЛЕНИЯ (только "Я здесь") --- */
+        #map-controls {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            justify-content: center;
+        }
+
+        .map-control-btn {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-height: 30px;
+            white-space: nowrap;
+        }
+
+        .map-control-btn:hover {
+            background: rgba(255, 140, 0, 0.12);
+            border-color: rgba(255, 140, 0, 0.15);
+            color: #fff;
+        }
+
+        .map-control-btn .icon {
+            font-size: 14px;
+        }
+
+        /* --- КАРТА --- */
         #map-container {
             flex: 1;
             position: relative;
-            margin: 4px 8px 4px 8px;
             border-radius: 16px;
             overflow: hidden;
-            background: #0a0a0c;
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+            background: #0f0f12;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             min-height: 0;
-            touch-action: none;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
         }
 
         #map-container iframe {
@@ -123,9 +160,7 @@
             width: 100%;
             height: 100%;
             border: none;
-            filter: saturate(1.1) contrast(1.02);
-            pointer-events: auto;
-            touch-action: auto;
+            filter: saturate(1.05) contrast(1.02);
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -140,13 +175,14 @@
         }
 
         #loading .spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid rgba(255, 140, 0, 0.08);
-            border-top: 3px solid #FF8C00;
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            border-top: 2px solid #FF8C00;
             border-radius: 50%;
-            animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            animation: spin 0.8s linear infinite;
             margin: 0 auto 8px;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.05);
         }
 
         @keyframes spin {
@@ -155,29 +191,28 @@
         }
 
         #loading p {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.08);
         }
 
         /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         #footer {
-            background: rgba(12, 12, 16, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 12px 14px;
+            background: rgba(16, 16, 20, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 10px 14px;
+            border-radius: 16px;
             flex-shrink: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 8px 10px;
-            min-height: 60px;
-            font-size: 13px;
-            color: #666;
+            gap: 6px 10px;
+            min-height: 52px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
             font-weight: 500;
             width: 100%;
-            touch-action: none;
-            pointer-events: auto;
         }
 
         #footer-left {
@@ -196,8 +231,8 @@
         }
 
         #footer .date {
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
             font-size: 12px;
             display: flex;
             align-items: center;
@@ -210,119 +245,138 @@
         #rating-container {
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 6px 12px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.03);
+            gap: 4px;
+            padding: 4px 10px 4px 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
             white-space: nowrap;
-            min-height: 34px;
+            min-height: 28px;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #00E676;
-            box-shadow: 0 0 14px rgba(0, 230, 118, 0.4);
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
             animation: pulse-green 2s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
-            50% { box-shadow: 0 0 18px rgba(0, 230, 118, 0.6); transform: scale(1.1); }
-            100% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); transform: scale(0.95); }
+            0% { opacity: 1; transform: scale(0.95); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(0.95); }
         }
 
         .status-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.3);
         }
 
         .status-count,
         #views-counter .count {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 700;
             color: #fff;
         }
 
         .status-count.glowing {
             color: #00E676;
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.1);
         }
 
         #views-counter .label {
-            font-size: 10px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 9px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.2);
         }
 
         #views-counter .icon {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
         }
 
         .stars {
             display: flex;
-            gap: 2px;
+            gap: 1px;
         }
 
         .star {
-            font-size: 13px;
-            color: #444;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.06);
         }
 
         .star.active {
             color: #FF8C00;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.1);
         }
 
         .rating-text {
-            font-size: 10px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 9px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.2);
         }
 
         .rating-text strong {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         #footer a {
-            color: #FF8C00;
+            color: rgba(255, 140, 0, 0.6);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            padding: 6px 12px;
-            border-radius: 24px;
-            background: rgba(255, 140, 0, 0.06);
-            border: 1px solid rgba(255, 140, 0, 0.06);
+            font-weight: 600;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 40px;
+            background: rgba(255, 140, 0, 0.04);
+            border: 1px solid rgba(255, 140, 0, 0.04);
             white-space: nowrap;
             line-height: 1;
-            min-height: 34px;
+            min-height: 28px;
             display: flex;
             align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        #footer a:hover {
+            background: rgba(255, 140, 0, 0.08);
+            color: #FF8C00;
         }
 
         #share-btn {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.4);
-            padding: 6px 12px;
-            border-radius: 24px;
-            font-size: 12px;
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 500;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             white-space: nowrap;
             line-height: 1.2;
-            min-height: 34px;
+            min-height: 28px;
             display: flex;
             align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        #share-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .feedback-btn {
-            background: rgba(255, 140, 0, 0.06) !important;
-            border-color: rgba(255, 140, 0, 0.06) !important;
+            background: rgba(255, 140, 0, 0.04) !important;
+            border-color: rgba(255, 140, 0, 0.04) !important;
+            color: rgba(255, 140, 0, 0.3) !important;
+        }
+
+        .feedback-btn:hover {
+            background: rgba(255, 140, 0, 0.08) !important;
             color: #FF8C00 !important;
         }
 
@@ -333,47 +387,57 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 999;
             padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         #popup-content {
-            background: rgba(20, 20, 25, 0.95);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 28px 24px;
+            background: #18181e;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 32px 28px;
             border-radius: 28px;
             text-align: center;
-            max-width: 320px;
+            max-width: 340px;
             width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
             position: relative;
         }
 
         #popup-content h2 {
-            font-size: 22px;
-            font-weight: 900;
+            font-size: 24px;
+            font-weight: 800;
             margin-bottom: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            color: #fff;
         }
 
         #popup-content h2 span {
-            font-size: 26px;
+            font-size: 28px;
         }
 
         #popup-content .subtitle {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.4;
-            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.3);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        #popup-content .subtitle strong {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         #popup-button {
@@ -382,15 +446,21 @@
             gap: 8px;
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             color: #fff;
-            padding: 14px 28px;
+            padding: 14px 32px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
             font-size: 15px;
-            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.15);
             width: 100%;
             justify-content: center;
             min-height: 48px;
+            transition: all 0.2s ease;
+        }
+
+        #popup-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(255, 140, 0, 0.2);
         }
 
         #popup-close {
@@ -399,21 +469,26 @@
             right: 16px;
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.08);
             font-size: 20px;
             cursor: pointer;
             padding: 8px;
+            transition: color 0.2s ease;
+        }
+
+        #popup-close:hover {
+            color: rgba(255, 255, 255, 0.3);
         }
 
         #popup-timer {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.1);
-            margin-top: 12px;
+            color: rgba(255, 255, 255, 0.05);
+            margin-top: 14px;
         }
 
         #popup-timer span {
-            color: #FF8C00;
-            font-weight: 700;
+            color: rgba(255, 140, 0, 0.3);
+            font-weight: 600;
         }
 
         /* --- МОДАЛКА --- */
@@ -424,8 +499,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(16px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -437,62 +512,67 @@
         }
 
         #feedback-content {
-            background: rgba(20, 20, 25, 0.95);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #18181e;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 24px;
             padding: 28px 24px;
-            max-width: 360px;
+            max-width: 380px;
             width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
         }
 
         #feedback-content h3 {
             font-size: 20px;
-            font-weight: 800;
+            font-weight: 700;
             margin-bottom: 4px;
         }
 
         #feedback-content .sub {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 16px;
         }
 
         #feedback-content textarea {
             width: 100%;
             padding: 12px 14px;
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             color: #fff;
             font-size: 14px;
             resize: vertical;
             min-height: 80px;
             font-family: 'Inter', sans-serif;
+            transition: border 0.2s ease;
         }
 
         #feedback-content textarea:focus {
             outline: none;
-            border-color: rgba(255, 140, 0, 0.3);
+            border-color: rgba(255, 140, 0, 0.15);
+        }
+
+        #feedback-content textarea::placeholder {
+            color: rgba(255, 255, 255, 0.08);
         }
 
         #feedback-actions {
             display: flex;
             gap: 10px;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         #feedback-actions button {
             flex: 1;
             padding: 12px;
-            border-radius: 30px;
+            border-radius: 40px;
             border: none;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 14px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             min-height: 44px;
+            transition: all 0.2s ease;
         }
 
         #feedback-send {
@@ -500,138 +580,57 @@
             color: #fff;
         }
 
+        #feedback-send:hover {
+            transform: scale(1.02);
+        }
+
         #feedback-cancel {
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        #feedback-cancel:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* --- АДАПТИВ --- */
         @media (max-width: 480px) {
-            #header {
-                padding: 10px 14px;
-            }
-            #header h1 {
-                font-size: 16px;
-            }
-            #header h1 span {
-                font-size: 18px;
-            }
-            #greeting {
-                font-size: 10px;
-            }
-            #refresh-btn {
-                font-size: 13px;
-                padding: 6px 14px;
-                min-height: 36px;
-                min-width: 70px;
-            }
-            #footer {
-                padding: 10px 12px;
-                min-height: 54px;
-                gap: 6px 8px;
-            }
-            #footer .date {
-                font-size: 11px;
-            }
-            .status-label {
-                font-size: 10px;
-            }
-            .status-count,
-            #views-counter .count {
-                font-size: 13px;
-            }
-            .status-dot {
-                width: 7px;
-                height: 7px;
-            }
-            #views-counter .label {
-                font-size: 9px;
-            }
-            #views-counter .icon {
-                font-size: 11px;
-            }
-            .star {
-                font-size: 12px;
-            }
-            .rating-text {
-                font-size: 9px;
-            }
-            #footer a {
-                font-size: 12px;
-                padding: 5px 10px;
-                min-height: 32px;
-            }
-            #share-btn {
-                font-size: 11px;
-                padding: 5px 10px;
-                min-height: 32px;
-            }
-            .status-indicator,
-            #views-counter,
-            #rating-container {
-                padding: 4px 10px;
-                min-height: 30px;
-                gap: 4px;
-            }
+            #app { padding: 6px 8px; gap: 4px; }
+            #header { padding: 8px 12px; border-radius: 12px; }
+            #header h1 { font-size: 15px; }
+            #header h1 span { font-size: 17px; }
+            #greeting { font-size: 9px; }
+            #refresh-btn { font-size: 12px; padding: 5px 12px; min-height: 32px; min-width: 56px; }
+            .map-control-btn { font-size: 10px; padding: 4px 10px; min-height: 26px; }
+            .map-control-btn .icon { font-size: 12px; }
+            #footer { padding: 8px 10px; min-height: 44px; border-radius: 12px; gap: 4px 6px; font-size: 10px; }
+            #footer .date { font-size: 10px; }
+            .status-label { font-size: 9px; }
+            .status-count, #views-counter .count { font-size: 11px; }
+            .status-dot { width: 5px; height: 5px; }
+            #views-counter .label { font-size: 8px; }
+            .star { font-size: 10px; }
+            .rating-text { font-size: 8px; }
+            #footer a { font-size: 10px; padding: 3px 10px; min-height: 26px; }
+            #share-btn { font-size: 10px; padding: 3px 10px; min-height: 26px; }
+            .status-indicator, #views-counter, #rating-container { padding: 3px 8px; min-height: 24px; gap: 3px; }
+            #map-container { border-radius: 12px; }
+            #popup-content { padding: 24px 20px; max-width: 300px; }
+            #popup-content h2 { font-size: 20px; }
+            #popup-button { font-size: 14px; padding: 12px 24px; min-height: 42px; }
         }
 
         @media (max-width: 380px) {
-            #header h1 {
-                font-size: 14px;
-            }
-            #header h1 span {
-                font-size: 16px;
-            }
-            #greeting {
-                display: none;
-            }
-            #refresh-btn {
-                font-size: 11px;
-                padding: 4px 10px;
-                min-height: 32px;
-                min-width: 60px;
-            }
-            #footer {
-                padding: 8px 10px;
-                min-height: 48px;
-            }
-            .status-label {
-                font-size: 9px;
-            }
-            .status-count,
-            #views-counter .count {
-                font-size: 12px;
-            }
-            .status-dot {
-                width: 6px;
-                height: 6px;
-            }
-            #views-counter .label {
-                display: none;
-            }
-            .rating-text {
-                display: none;
-            }
-            #footer a {
-                font-size: 11px;
-                padding: 4px 8px;
-                min-height: 28px;
-            }
-            #share-btn {
-                font-size: 10px;
-                padding: 4px 8px;
-                min-height: 28px;
-            }
-            .status-indicator,
-            #views-counter,
-            #rating-container {
-                padding: 3px 8px;
-                min-height: 26px;
-                gap: 3px;
-            }
-            .star {
-                font-size: 10px;
-            }
+            #header h1 { font-size: 13px; }
+            #greeting { display: none; }
+            #refresh-btn { font-size: 10px; padding: 4px 10px; min-width: 46px; }
+            .map-control-btn { font-size: 9px; padding: 3px 8px; }
+            .map-control-btn .icon { font-size: 10px; }
+            .status-label { display: none; }
+            #views-counter .label { display: none; }
+            .rating-text { display: none; }
+            #footer { min-height: 36px; padding: 4px 8px; }
+            .star { font-size: 8px; }
         }
     </style>
 </head>
@@ -648,7 +647,14 @@
             </div>
         </div>
 
-        <!-- КАРТА (Яндекс.Карты) -->
+        <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (только "Я здесь") -->
+        <div id="map-controls">
+            <button class="map-control-btn" onclick="goToMyLocation()">
+                <span class="icon">📍</span> Я здесь
+            </button>
+        </div>
+
+        <!-- КАРТА -->
         <div id="map-container">
             <div id="loading">
                 <div class="spinner"></div>
@@ -738,13 +744,63 @@
         }
 
         // === КОНФИГУРАЦИЯ ===
-        // ========== НОВАЯ ССЫЛКА НА ЯНДЕКС.КАРТЫ ==========
         const MAP_URL = 'https://yandex.ru/map-widget/v1/?um=constructor%3A88473f3d5376c583d56399160a83a27ef0e2c029de801f9cdf7705c908b343d3&source=constructor';
-        // =================================================
-
         const STATIONS_DATA = { green: 13 };
         const RATING = { value: 4.8 };
         const VIEWS = 7739;
+
+        // === ГЕОЛОКАЦИЯ ===
+        function goToMyLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(pos) {
+                        const lat = pos.coords.latitude;
+                        const lon = pos.coords.longitude;
+                        const newUrl = MAP_URL + `&ll=${lon},${lat}&z=15`;
+                        document.getElementById('map-frame').src = newUrl;
+                        showToast('📍 Карта центрирована по вашему местоположению');
+                    },
+                    function() {
+                        showToast('❌ Не удалось определить местоположение. Разрешите доступ к геолокации.');
+                    }
+                );
+            } else {
+                showToast('❌ Геолокация не поддерживается вашим браузером');
+            }
+        }
+
+        // === TOAST ===
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(20,20,30,0.9);
+                backdrop-filter: blur(12px);
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 16px;
+                font-size: 13px;
+                font-weight: 500;
+                border: 1px solid rgba(255,255,255,0.04);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+                z-index: 999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                max-width: 90%;
+                text-align: center;
+                font-family: 'Inter', sans-serif;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '1'; }, 50);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 2500);
+        }
 
         // === ПРИВЕТСТВИЕ ===
         (function setGreeting() {
@@ -851,15 +907,16 @@
 
         // === ШАРИНГ ===
         function sharePage() {
+            const shareText = '⛽ Заправки Тула — актуальная карта АЗС с ценами и очередями!\n\nОткрой карту: ' + window.location.href;
             if (navigator.share) {
                 navigator.share({
                     title: 'Заправки Тула',
-                    text: 'Актуальная карта заправок в Туле',
+                    text: shareText,
                     url: window.location.href
                 }).catch(() => {});
             } else {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert('Ссылка скопирована!');
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('📋 Ссылка скопирована! Поделитесь с друзьями-водителями.');
                 }).catch(() => {});
             }
         }
