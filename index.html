@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Заправки Тула</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,12 +15,12 @@
         html, body {
             height: 100%;
             overflow: hidden;
-            background: #08080a;
+            background: #0a0a0c;
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: #ecedee;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            color: #fff;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -36,14 +36,14 @@
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding: 8px 10px 8px 10px;
+            padding: 8px 10px;
             gap: 6px;
         }
 
-        /* --- ШАПКА --- */
+        /* ===== ШАПКА ===== */
         #header {
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
-            padding: 10px 16px;
+            padding: 10px 16px 8px 16px;
             border-radius: 16px;
             flex-shrink: 0;
             z-index: 10;
@@ -54,7 +54,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            margin-bottom: 8px;
         }
 
         #header h1 {
@@ -67,90 +67,101 @@
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
         }
 
-        #header h1 span {
-            font-size: 20px;
-        }
+        #header h1 span { font-size: 20px; }
 
-        #greeting {
-            font-size: 11px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.7);
-            margin-left: 4px;
-        }
-
-        #refresh-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            flex-shrink: 0;
-            white-space: nowrap;
-            min-height: 38px;
-            min-width: 60px;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
-        }
-
-        #refresh-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        #refresh-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* --- ПАНЕЛЬ УПРАВЛЕНИЯ (только "Я здесь") --- */
-        #map-controls {
+        /* ===== НАВИГАЦИЯ (УЛУЧШЕННАЯ) ===== */
+        #nav {
             display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-            justify-content: center;
-        }
-
-        .map-control-btn {
-            background: rgba(20, 20, 30, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.6);
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
             gap: 4px;
-            min-height: 30px;
-            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 4px;
+            flex-shrink: 0;
         }
 
-        .map-control-btn:hover {
-            background: rgba(255, 140, 0, 0.12);
-            border-color: rgba(255, 140, 0, 0.15);
-            color: #fff;
-        }
-
-        .map-control-btn .icon {
-            font-size: 14px;
-        }
-
-        /* --- КАРТА --- */
-        #map-container {
+        .nav-btn {
             flex: 1;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            padding: 6px 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn .icon {
+            font-size: 18px;
+            line-height: 1.2;
+        }
+
+        .nav-btn .label {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active .label {
+            opacity: 1;
+            color: #FF8C00;
+        }
+
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            flex: 1;
+            overflow: hidden;
             position: relative;
+            min-height: 0;
+        }
+
+        /* ===== ВКЛАДКИ ===== */
+        .tab-content {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding: 0 2px 10px 2px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        .tab-content::-webkit-scrollbar { width: 3px; }
+        .tab-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
+        .tab-content::-webkit-scrollbar-thumb { background: rgba(255, 140, 0, 0.2); border-radius: 10px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== КАРТА ===== */
+        #map-container {
+            height: 100%;
+            min-height: 280px;
             border-radius: 16px;
             overflow: hidden;
             background: #0f0f12;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            min-height: 0;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
 
         #map-container iframe {
@@ -163,7 +174,6 @@
             filter: saturate(1.05) contrast(1.02);
         }
 
-        /* --- ЗАГРУЗКА --- */
         #loading {
             position: absolute;
             top: 50%;
@@ -182,7 +192,6 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 8px;
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.05);
         }
 
         @keyframes spin {
@@ -195,45 +204,447 @@
             color: rgba(255, 255, 255, 0.08);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
+        #map-controls {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        .map-control-btn {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 32px;
+            white-space: nowrap;
+        }
+
+        .map-control-btn:hover {
+            background: rgba(255, 140, 0, 0.12);
+            border-color: rgba(255, 140, 0, 0.15);
+            color: #fff;
+        }
+
+        .map-control-btn .icon { font-size: 16px; }
+
+        /* ===== КАРТОЧКИ ===== */
+        .card {
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 16px 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon { font-size: 18px; }
+        .card-title .badge {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== ПОЛЯ ВВОДА ===== */
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 4px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.3s ease;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-group input:focus {
+            border-color: rgba(255, 140, 0, 0.3);
+        }
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.06);
+            font-weight: 400;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+        .input-row .input-group { flex: 1; }
+
+        /* ===== КНОПКИ ===== */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF8C00, #FF6A00);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.15);
+        }
+        .btn-primary:hover { transform: scale(1.02); }
+        .btn-primary:active { transform: scale(0.95); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            padding: 10px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-danger {
+            background: rgba(255, 23, 68, 0.04);
+            border: 1px solid rgba(255, 23, 68, 0.04);
+            color: rgba(255, 23, 68, 0.2);
+            font-size: 12px;
+            padding: 8px;
+        }
+        .btn-danger:hover {
+            background: rgba(255, 23, 68, 0.08);
+            color: rgba(255, 23, 68, 0.35);
+        }
+
+        /* ===== РЕЗУЛЬТАТЫ ===== */
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .result-item .label {
+            font-size: 9px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .result-item .value {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 2px;
+        }
+        .result-item .value.green { color: #00E676; }
+        .result-item .value.orange { color: #FF8C00; }
+        .result-item .value.blue { color: #4FC3F7; }
+        .result-item.full { grid-column: span 2; }
+
+        /* ===== ПРОФИЛЬ ===== */
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF8C00, #FF6A00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+        }
+
+        .profile-name {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-car {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.12);
+            margin-top: 2px;
+        }
+
+        .profile-edit {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            margin-top: 6px;
+        }
+        .profile-edit:hover { color: rgba(255, 255, 255, 0.3); }
+
+        /* ===== СТАТИСТИКА ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .stat-item .value.orange { color: #FF8C00; }
+        .stat-item .value.green { color: #00E676; }
+        .stat-item .value.blue { color: #4FC3F7; }
+
+        .stat-item .label {
+            font-size: 9px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-top: 2px;
+        }
+
+        /* ===== ИСТОРИЯ ===== */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-list::-webkit-scrollbar { width: 3px; }
+        .history-list::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
+        .history-list::-webkit-scrollbar-thumb { background: rgba(255, 140, 0, 0.2); border-radius: 10px; }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .history-item .left {
+            display: flex;
+            flex-direction: column;
+        }
+        .history-item .left .date {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+        .history-item .left .detail {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .history-item .right {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .history-item .right .consumption {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF8C00;
+        }
+        .history-item .right .cost {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .history-item .delete-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 23, 68, 0.15);
+            font-size: 13px;
+            cursor: pointer;
+            padding: 2px 4px;
+        }
+        .history-item .delete-btn:hover { color: rgba(255, 23, 68, 0.3); }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px 0;
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+        }
+        .empty-state .emoji {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ===== МОДАЛКА ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 16px;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal-content {
+            background: #18181e;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 24px 20px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        .modal-content .sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .modal-actions .btn-save {
+            background: linear-gradient(135deg, #FF8C00, #FF6A00);
+            color: #fff;
+        }
+        .modal-actions .btn-cancel {
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== НИЖНЯЯ ПАНЕЛЬ ===== */
         #footer {
             background: rgba(16, 16, 20, 0.85);
             backdrop-filter: blur(12px);
-            padding: 10px 14px;
-            border-radius: 16px;
+            padding: 8px 12px;
+            border-radius: 14px;
             flex-shrink: 0;
             border: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 6px 10px;
-            min-height: 52px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 500;
-            width: 100%;
+            gap: 4px 8px;
+            min-height: 44px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
         }
 
         #footer-left {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 6px 10px;
+            gap: 4px 8px;
             flex: 1 1 auto;
         }
-
         #footer-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
         #footer .date {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -245,13 +656,13 @@
         #rating-container {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 4px 10px 4px 8px;
+            gap: 3px;
+            padding: 3px 8px;
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             background: rgba(255, 255, 255, 0.02);
             white-space: nowrap;
-            min-height: 28px;
+            min-height: 24px;
         }
 
         .status-dot {
@@ -270,117 +681,89 @@
             100% { opacity: 1; transform: scale(0.95); }
         }
 
-        .status-label {
-            font-size: 10px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.3);
-        }
+        .status-label { font-size: 9px; font-weight: 500; color: rgba(255, 255, 255, 0.2); }
+        .status-count, #views-counter .count { font-size: 12px; font-weight: 700; color: #fff; }
+        .status-count.glowing { color: #00E676; }
+        #views-counter .label { font-size: 8px; font-weight: 400; color: rgba(255, 255, 255, 0.15); }
+        #views-counter .icon { font-size: 10px; color: rgba(255, 255, 255, 0.15); }
 
-        .status-count,
-        #views-counter .count {
-            font-size: 13px;
-            font-weight: 700;
-            color: #fff;
-        }
+        .stars { display: flex; gap: 1px; }
+        .star { font-size: 10px; color: rgba(255, 255, 255, 0.06); }
+        .star.active { color: #FF8C00; }
 
-        .status-count.glowing {
-            color: #00E676;
-            text-shadow: 0 0 20px rgba(0, 230, 118, 0.1);
-        }
-
-        #views-counter .label {
-            font-size: 9px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        #views-counter .icon {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .stars {
-            display: flex;
-            gap: 1px;
-        }
-
-        .star {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.06);
-        }
-
-        .star.active {
-            color: #FF8C00;
-            text-shadow: 0 0 10px rgba(255, 140, 0, 0.1);
-        }
-
-        .rating-text {
-            font-size: 9px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .rating-text strong {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        .rating-text { font-size: 8px; font-weight: 500; color: rgba(255, 255, 255, 0.15); }
+        .rating-text strong { color: rgba(255, 255, 255, 0.3); }
 
         #footer a {
-            color: rgba(255, 140, 0, 0.6);
+            color: rgba(255, 140, 0, 0.4);
             text-decoration: none;
             font-weight: 600;
-            font-size: 12px;
-            padding: 4px 12px;
+            font-size: 11px;
+            padding: 3px 10px;
             border-radius: 40px;
             background: rgba(255, 140, 0, 0.04);
             border: 1px solid rgba(255, 140, 0, 0.04);
             white-space: nowrap;
             line-height: 1;
-            min-height: 28px;
+            min-height: 24px;
             display: flex;
             align-items: center;
             transition: all 0.2s ease;
         }
-
-        #footer a:hover {
-            background: rgba(255, 140, 0, 0.08);
-            color: #FF8C00;
-        }
+        #footer a:hover { background: rgba(255, 140, 0, 0.08); color: #FF8C00; }
 
         #share-btn {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.25);
-            padding: 4px 12px;
+            color: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
             border-radius: 40px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             white-space: nowrap;
             line-height: 1.2;
-            min-height: 28px;
+            min-height: 24px;
             display: flex;
             align-items: center;
             transition: all 0.2s ease;
         }
-
-        #share-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.6);
-        }
+        #share-btn:hover { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.5); }
 
         .feedback-btn {
             background: rgba(255, 140, 0, 0.04) !important;
             border-color: rgba(255, 140, 0, 0.04) !important;
-            color: rgba(255, 140, 0, 0.3) !important;
+            color: rgba(255, 140, 0, 0.2) !important;
         }
+        .feedback-btn:hover { background: rgba(255, 140, 0, 0.08) !important; color: #FF8C00 !important; }
 
-        .feedback-btn:hover {
-            background: rgba(255, 140, 0, 0.08) !important;
-            color: #FF8C00 !important;
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 30, 0.9);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            pointer-events: none;
         }
+        .toast.show { opacity: 1; }
 
-        /* --- ПОПАП --- */
+        /* ===== ПОПАП ===== */
         #popup-overlay {
             position: fixed;
             top: 0;
@@ -397,48 +780,36 @@
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         #popup-content {
             background: #18181e;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 32px 28px;
-            border-radius: 28px;
+            padding: 28px 24px;
+            border-radius: 24px;
             text-align: center;
-            max-width: 340px;
+            max-width: 320px;
             width: 100%;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
             position: relative;
         }
 
         #popup-content h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             color: #fff;
         }
-
-        #popup-content h2 span {
-            font-size: 28px;
-        }
-
+        #popup-content h2 span { font-size: 26px; }
         #popup-content .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: rgba(255, 255, 255, 0.3);
             line-height: 1.5;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
-
-        #popup-content .subtitle strong {
-            color: rgba(255, 255, 255, 0.6);
-        }
+        #popup-content .subtitle strong { color: rgba(255, 255, 255, 0.6); }
 
         #popup-button {
             display: inline-flex;
@@ -446,224 +817,256 @@
             gap: 8px;
             background: linear-gradient(135deg, #FF8C00, #FF6A00);
             color: #fff;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             box-shadow: 0 4px 20px rgba(255, 140, 0, 0.15);
             width: 100%;
             justify-content: center;
-            min-height: 48px;
-            transition: all 0.2s ease;
-        }
-
-        #popup-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(255, 140, 0, 0.2);
-        }
-
-        #popup-close {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.08);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px;
-            transition: color 0.2s ease;
-        }
-
-        #popup-close:hover {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        #popup-timer {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.05);
-            margin-top: 14px;
-        }
-
-        #popup-timer span {
-            color: rgba(255, 140, 0, 0.3);
-            font-weight: 600;
-        }
-
-        /* --- МОДАЛКА --- */
-        #feedback-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        #feedback-modal.show {
-            display: flex;
-        }
-
-        #feedback-content {
-            background: #18181e;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 24px;
-            padding: 28px 24px;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-        }
-
-        #feedback-content h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        #feedback-content .sub {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-bottom: 16px;
-        }
-
-        #feedback-content textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            color: #fff;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-            font-family: 'Inter', sans-serif;
-            transition: border 0.2s ease;
-        }
-
-        #feedback-content textarea:focus {
-            outline: none;
-            border-color: rgba(255, 140, 0, 0.15);
-        }
-
-        #feedback-content textarea::placeholder {
-            color: rgba(255, 255, 255, 0.08);
-        }
-
-        #feedback-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        #feedback-actions button {
-            flex: 1;
-            padding: 12px;
-            border-radius: 40px;
-            border: none;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
             min-height: 44px;
             transition: all 0.2s ease;
         }
+        #popup-button:hover { transform: scale(1.02); }
 
-        #feedback-send {
-            background: linear-gradient(135deg, #FF8C00, #FF6A00);
-            color: #fff;
+        #popup-close {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 6px;
         }
+        #popup-close:hover { color: rgba(255, 255, 255, 0.3); }
 
-        #feedback-send:hover {
-            transform: scale(1.02);
+        #popup-timer {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.05);
+            margin-top: 12px;
         }
+        #popup-timer span { color: rgba(255, 140, 0, 0.3); font-weight: 600; }
 
-        #feedback-cancel {
-            background: rgba(255, 255, 255, 0.02);
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        #feedback-cancel:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* --- АДАПТИВ --- */
+        /* ===== АДАПТИВ ===== */
         @media (max-width: 480px) {
             #app { padding: 6px 8px; gap: 4px; }
-            #header { padding: 8px 12px; border-radius: 12px; }
+            #header { padding: 8px 12px 6px 12px; border-radius: 12px; }
             #header h1 { font-size: 15px; }
             #header h1 span { font-size: 17px; }
-            #greeting { font-size: 9px; }
-            #refresh-btn { font-size: 12px; padding: 5px 12px; min-height: 32px; min-width: 56px; }
-            .map-control-btn { font-size: 10px; padding: 4px 10px; min-height: 26px; }
-            .map-control-btn .icon { font-size: 12px; }
-            #footer { padding: 8px 10px; min-height: 44px; border-radius: 12px; gap: 4px 6px; font-size: 10px; }
+            .nav-btn .icon { font-size: 16px; }
+            .nav-btn .label { font-size: 8px; }
+            .nav-btn { padding: 4px 6px; }
+            #map-container { min-height: 200px; }
+            .card { padding: 14px 12px; margin-bottom: 8px; }
+            .card-title { font-size: 14px; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .stat-item { padding: 8px 4px; }
+            .stat-item .value { font-size: 15px; }
+            .input-group input { font-size: 13px; padding: 8px 10px; }
+            .result-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .result-item { padding: 8px 6px; }
+            .result-item .value { font-size: 15px; }
+            .history-item { padding: 6px 8px; }
+            .history-item .right .consumption { font-size: 13px; }
+            #footer { padding: 6px 10px; min-height: 36px; font-size: 10px; }
             #footer .date { font-size: 10px; }
-            .status-label { font-size: 9px; }
-            .status-count, #views-counter .count { font-size: 11px; }
-            .status-dot { width: 5px; height: 5px; }
-            #views-counter .label { font-size: 8px; }
-            .star { font-size: 10px; }
-            .rating-text { font-size: 8px; }
-            #footer a { font-size: 10px; padding: 3px 10px; min-height: 26px; }
-            #share-btn { font-size: 10px; padding: 3px 10px; min-height: 26px; }
-            .status-indicator, #views-counter, #rating-container { padding: 3px 8px; min-height: 24px; gap: 3px; }
-            #map-container { border-radius: 12px; }
-            #popup-content { padding: 24px 20px; max-width: 300px; }
+            .status-label { font-size: 8px; }
+            .status-count { font-size: 11px; }
+            #footer a { font-size: 10px; padding: 2px 8px; min-height: 20px; }
+            #share-btn { font-size: 9px; padding: 2px 8px; min-height: 20px; }
+            .profile-avatar { width: 50px; height: 50px; font-size: 22px; }
+            .profile-name { font-size: 16px; }
+            #popup-content { padding: 24px 18px; max-width: 300px; }
             #popup-content h2 { font-size: 20px; }
-            #popup-button { font-size: 14px; padding: 12px 24px; min-height: 42px; }
+            #popup-button { font-size: 13px; padding: 10px 20px; min-height: 38px; }
+            .modal-content { padding: 20px 16px; }
+            .map-control-btn { font-size: 11px; padding: 4px 12px; min-height: 28px; }
+            .map-control-btn .icon { font-size: 14px; }
         }
 
         @media (max-width: 380px) {
-            #header h1 { font-size: 13px; }
-            #greeting { display: none; }
-            #refresh-btn { font-size: 10px; padding: 4px 10px; min-width: 46px; }
-            .map-control-btn { font-size: 9px; padding: 3px 8px; }
-            .map-control-btn .icon { font-size: 10px; }
-            .status-label { display: none; }
-            #views-counter .label { display: none; }
-            .rating-text { display: none; }
-            #footer { min-height: 36px; padding: 4px 8px; }
-            .star { font-size: 8px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .result-grid { grid-template-columns: 1fr; }
+            .result-item.full { grid-column: span 1; }
+            .input-row { flex-direction: column; gap: 0; }
+            .modal-actions { flex-direction: column; }
+            #map-container { min-height: 160px; }
         }
+
+        @media (min-height: 700px) {
+            #map-container { min-height: 380px; }
+            .history-list { max-height: 300px; }
+        }
+
+        @media (min-height: 900px) {
+            #map-container { min-height: 480px; }
+            .history-list { max-height: 400px; }
+        }
+
+        .hidden { display: none !important; }
+        .mt-8 { margin-top: 8px; }
     </style>
 </head>
 <body>
+
     <div id="app">
-        <!-- ШАПКА -->
+        <!-- ===== ШАПКА ===== -->
         <div id="header">
             <div id="header-top">
-                <h1>
-                    <span>⛽</span> Заправки Тула
-                    <span id="greeting">☀️</span>
-                </h1>
-                <button id="refresh-btn" onclick="refreshMap()">↻</button>
+                <h1><span>⛽</span> Заправки Тула</h1>
+            </div>
+
+            <!-- ===== НАВИГАЦИЯ (С ПОДПИСЯМИ) ===== -->
+            <div id="nav">
+                <button class="nav-btn active" id="nav-map" onclick="switchTab('map')">
+                    <span class="icon">🗺️</span>
+                    <span class="label">Карта</span>
+                </button>
+                <button class="nav-btn" id="nav-calc" onclick="switchTab('calc')">
+                    <span class="icon">🧮</span>
+                    <span class="label">Калькулятор</span>
+                </button>
+                <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">
+                    <span class="icon">👤</span>
+                    <span class="label">Профиль</span>
+                </button>
             </div>
         </div>
 
-        <!-- ПАНЕЛЬ УПРАВЛЕНИЯ (только "Я здесь") -->
-        <div id="map-controls">
-            <button class="map-control-btn" onclick="goToMyLocation()">
-                <span class="icon">📍</span> Я здесь
-            </button>
-        </div>
+        <div class="container">
 
-        <!-- КАРТА -->
-        <div id="map-container">
-            <div id="loading">
-                <div class="spinner"></div>
-                <p>Загружаем...</p>
+            <!-- ===== ВКЛАДКА: КАРТА ===== -->
+            <div class="tab-content active" id="tab-map">
+                <div id="map-controls">
+                    <button class="map-control-btn" onclick="goToMyLocation()">
+                        <span class="icon">📍</span> Я здесь
+                    </button>
+                    <button class="map-control-btn" onclick="refreshMap()">
+                        <span class="icon">🔄</span> Обновить
+                    </button>
+                </div>
+                <div id="map-container">
+                    <div id="loading">
+                        <div class="spinner"></div>
+                        <p>Загружаем...</p>
+                    </div>
+                    <iframe id="map-frame" src=""></iframe>
+                </div>
             </div>
-            <iframe id="map-frame" src=""></iframe>
+
+            <!-- ===== ВКЛАДКА: КАЛЬКУЛЯТОР ===== -->
+            <div class="tab-content" id="tab-calc">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🧮</span> Калькулятор расхода топлива
+                    </div>
+
+                    <div class="input-group">
+                        <label>📏 Пройдено, км</label>
+                        <input type="number" id="distance" placeholder="Например: 450" inputmode="decimal">
+                    </div>
+
+                    <div class="input-group">
+                        <label>⛽ Залито, литров</label>
+                        <input type="number" id="fuel" placeholder="Например: 40" inputmode="decimal">
+                    </div>
+
+                    <div class="input-group">
+                        <label>💰 Цена за литр, ₽</label>
+                        <input type="number" id="price" placeholder="Например: 53.90" inputmode="decimal">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="calculate()">🧮 Рассчитать</button>
+
+                    <div id="result" class="hidden">
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="label">Расход на 100 км</div>
+                                <div class="value orange" id="consumption">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Стоимость поездки</div>
+                                <div class="value green" id="trip-cost">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Расход на 1 км</div>
+                                <div class="value blue" id="cost-per-km">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="label">Экономия за месяц<br><span style="font-size:9px; color:rgba(255,255,255,0.06);">при 2000 км</span></div>
+                                <div class="value green" id="monthly-saving">—</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="save-btn" onclick="saveRecord()">💾 Сохранить в историю</button>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 3px solid rgba(255, 140, 0, 0.15);">
+                    <div class="card-title" style="font-size:13px; color:rgba(255,255,255,0.2);">
+                        <span class="icon">💡</span> Совет
+                    </div>
+                    <p style="font-size:12px; color:rgba(255,255,255,0.12); line-height:1.5;">
+                        Заправляйтесь <strong style="color:rgba(255,255,255,0.3);">до полного бака</strong> и обнуляйте одометр.
+                        Тогда данные будут максимально точными.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ===== ВКЛАДКА: ПРОФИЛЬ ===== -->
+            <div class="tab-content" id="tab-profile">
+                <div class="card">
+                    <div class="profile-avatar" id="profile-avatar">👤</div>
+                    <div class="profile-name" id="profile-name">Водитель</div>
+                    <div class="profile-car" id="profile-car">Автомобиль не указан</div>
+                    <div class="profile-edit" onclick="openProfileModal()">✎ Редактировать профиль</div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="value orange" id="stat-avg-consumption">—</div>
+                            <div class="label">Средний расход</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value blue" id="stat-total-distance">—</div>
+                            <div class="label">Общий пробег</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value green" id="stat-total-cost">—</div>
+                            <div class="label">Потрачено</div>
+                        </div>
+                    </div>
+                    <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-top: 6px;">
+                        <div class="stat-item">
+                            <div class="value" id="stat-total-fuel" style="color:#fff;">—</div>
+                            <div class="label">Всего топлива</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value" id="stat-trips-count" style="color:#fff;">—</div>
+                            <div class="label">Всего поездок</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="font-size:14px;">
+                        <span class="icon">📋</span> История поездок
+                        <span class="badge" id="history-count">0 записей</span>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <div class="empty-state">
+                            <span class="emoji">📭</span>
+                            Нет записей
+                        </div>
+                    </div>
+                    <button class="btn btn-danger mt-8" onclick="clearHistory()" style="display:none;" id="clear-history-btn">🗑️ Очистить историю</button>
+                </div>
+            </div>
+
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ -->
+        <!-- ===== НИЖНЯЯ ПАНЕЛЬ ===== -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
@@ -696,7 +1099,7 @@
         </div>
     </div>
 
-    <!-- ПОПАП -->
+    <!-- ===== ПОПАП ===== -->
     <div id="popup-overlay">
         <div id="popup-content">
             <button id="popup-close" onclick="closePopup()">✕</button>
@@ -709,47 +1112,99 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА -->
-    <div id="feedback-modal">
-        <div id="feedback-content">
-            <h3>💬 Сообщить</h3>
-            <p class="sub">Нашли неточность? Напишите!</p>
-            <textarea id="feedback-text" placeholder="Например: на АЗС №5 закончился 95-й..."></textarea>
-            <div id="feedback-actions">
-                <button id="feedback-cancel" onclick="closeFeedback()">Отмена</button>
-                <button id="feedback-send" onclick="sendFeedback()">Отправить</button>
+    <!-- ===== МОДАЛКА ПРОФИЛЯ ===== -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal-content">
+            <h2>✎ Редактировать профиль</h2>
+            <p class="sub">Измените имя и данные о машине</p>
+
+            <div class="input-group">
+                <label>👤 Ваше имя</label>
+                <input type="text" id="edit-name" placeholder="Введите имя">
+            </div>
+
+            <div class="input-group">
+                <label>🚗 Марка и модель авто</label>
+                <input type="text" id="edit-car" placeholder="Например: Toyota Camry">
+            </div>
+
+            <div class="input-group">
+                <label>📊 Паспортный расход, л/100км</label>
+                <input type="number" id="edit-consumption" placeholder="Например: 8.5" step="0.1" inputmode="decimal">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeProfileModal()">Отмена</button>
+                <button class="btn-save" onclick="saveProfile()">💾 Сохранить</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // === ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ===
-        let tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-            console.log('✅ Telegram Web App инициализирован');
-        } else {
-            console.log('⚠️ Telegram Web App не найден');
-        }
+    <!-- ===== МОДАЛКА ОБРАТНОЙ СВЯЗИ ===== -->
+    <div id="feedback-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 380px;">
+            <h3>💬 Сообщить</h3>
+            <p class="sub">Нашли неточность? Напишите!</p>
+            <textarea id="feedback-text" placeholder="Например: на АЗС №5 закончился 95-й..." style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.02); color:#fff; font-size:14px; resize:vertical; min-height:80px; font-family:inherit; outline:none;"></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeFeedback()">Отмена</button>
+                <button class="btn-save" onclick="sendFeedback()">Отправить</button>
+            </div>
+        </div>
+    </div>
 
-        // === ПРИНУДИТЕЛЬНАЯ УСТАНОВКА ВЫСОТЫ ===
-        function fixHeight() {
-            const vh = window.innerHeight;
-            document.documentElement.style.height = vh + 'px';
-            document.body.style.height = vh + 'px';
-            if (tg) {
-                tg.expand();
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // 1. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+        // ============================================================
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('nav-' + tab).classList.add('active');
+
+            if (tab === 'map' && window._mapLoaded) {
+                setTimeout(() => {
+                    const container = document.getElementById('map-container');
+                    if (container) {
+                        const iframe = container.querySelector('iframe');
+                        if (iframe && iframe.src) {}
+                    }
+                }, 100);
             }
         }
 
-        // === КОНФИГУРАЦИЯ ===
-        const MAP_URL = 'https://yandex.ru/map-widget/v1/?um=constructor%3A88473f3d5376c583d56399160a83a27ef0e2c029de801f9cdf7705c908b343d3&source=constructor';
-        const STATIONS_DATA = { green: 13 };
-        const RATING = { value: 4.8 };
-        const VIEWS = 7739;
+        // ============================================================
+        // 2. КАРТА
+        // ============================================================
 
-        // === ГЕОЛОКАЦИЯ ===
+        const MAP_URL = 'https://yandex.ru/map-widget/v1/?um=constructor%3A88473f3d5376c583d56399160a83a27ef0e2c029de801f9cdf7705c908b343d3&source=constructor';
+
+        function loadMap() {
+            const loading = document.getElementById('loading');
+            const mapFrame = document.getElementById('map-frame');
+            loading.style.display = 'block';
+            mapFrame.src = MAP_URL;
+        }
+
+        function refreshMap() {
+            const mapFrame = document.getElementById('map-frame');
+            mapFrame.src = '';
+            setTimeout(() => {
+                mapFrame.src = MAP_URL;
+                showToast('🔄 Карта обновлена');
+            }, 150);
+        }
+
+        document.getElementById('map-frame').addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+            window._mapLoaded = true;
+        });
+
         function goToMyLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -769,66 +1224,220 @@
             }
         }
 
-        // === TOAST ===
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 80px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(20,20,30,0.9);
-                backdrop-filter: blur(12px);
-                color: #fff;
-                padding: 10px 20px;
-                border-radius: 16px;
-                font-size: 13px;
-                font-weight: 500;
-                border: 1px solid rgba(255,255,255,0.04);
-                box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-                z-index: 999;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                max-width: 90%;
-                text-align: center;
-                font-family: 'Inter', sans-serif;
-            `;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '1'; }, 50);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 400);
-            }, 2500);
+        // ============================================================
+        // 3. ПРОФИЛЬ
+        // ============================================================
+
+        function getProfile() {
+            const defaultProfile = { name: 'Водитель', car: '', consumption: '' };
+            try {
+                return JSON.parse(localStorage.getItem('fuel_profile')) || defaultProfile;
+            } catch {
+                return defaultProfile;
+            }
         }
 
-        // === ПРИВЕТСТВИЕ ===
-        (function setGreeting() {
-            const hour = new Date().getHours();
-            let emoji = '';
-            if (hour >= 5 && hour < 12) emoji = '☀️ Доброе утро!';
-            else if (hour >= 12 && hour < 18) emoji = '🌤️ Добрый день!';
-            else if (hour >= 18 && hour < 23) emoji = '🌆 Добрый вечер!';
-            else emoji = '🌙 Доброй ночи!';
-            document.getElementById('greeting').textContent = emoji;
-        })();
+        function saveProfile() {
+            const name = document.getElementById('edit-name').value.trim() || 'Водитель';
+            const car = document.getElementById('edit-car').value.trim() || 'Автомобиль не указан';
+            const consumption = parseFloat(document.getElementById('edit-consumption').value);
 
-        // === ДАТА ===
-        (function setDate() {
-            const now = new Date();
-            document.getElementById('time-label').textContent = now.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'short'
-            });
-        })();
+            const profile = { name, car, consumption: isNaN(consumption) ? '' : consumption };
+            localStorage.setItem('fuel_profile', JSON.stringify(profile));
 
-        // === ОБНОВЛЕНИЕ ===
+            updateProfileUI();
+            closeProfileModal();
+            showToast('✅ Профиль сохранён');
+        }
+
+        function updateProfileUI() {
+            const profile = getProfile();
+            document.getElementById('profile-name').textContent = profile.name || 'Водитель';
+            document.getElementById('profile-car').textContent = profile.car || 'Автомобиль не указан';
+            document.getElementById('edit-name').value = profile.name || '';
+            document.getElementById('edit-car').value = (profile.car === 'Автомобиль не указан') ? '' : profile.car || '';
+            document.getElementById('edit-consumption').value = profile.consumption || '';
+            updateStats();
+        }
+
+        function openProfileModal() {
+            const profile = getProfile();
+            document.getElementById('edit-name').value = profile.name || '';
+            document.getElementById('edit-car').value = (profile.car === 'Автомобиль не указан') ? '' : profile.car || '';
+            document.getElementById('edit-consumption').value = profile.consumption || '';
+            document.getElementById('profile-modal').classList.add('show');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('show');
+        }
+
+        // ============================================================
+        // 4. КАЛЬКУЛЯТОР
+        // ============================================================
+
+        function calculate() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const fuel = parseFloat(document.getElementById('fuel').value);
+            const price = parseFloat(document.getElementById('price').value) || 0;
+
+            if (!distance || !fuel || distance <= 0 || fuel <= 0) {
+                showToast('❌ Введите пройденное расстояние и количество топлива');
+                return;
+            }
+
+            const consumption = (fuel / distance) * 100;
+            const costPerKm = (fuel * price) / distance;
+            const tripCost = fuel * price;
+            const profile = getProfile();
+            const referenceConsumption = parseFloat(profile.consumption) || 8;
+            const monthlySaving = ((consumption - referenceConsumption) / 100) * 2000 * price;
+
+            document.getElementById('consumption').textContent = consumption.toFixed(1) + ' л';
+            document.getElementById('trip-cost').textContent = tripCost.toFixed(0) + ' ₽';
+            document.getElementById('cost-per-km').textContent = costPerKm.toFixed(2) + ' ₽';
+
+            if (monthlySaving > 0) {
+                document.getElementById('monthly-saving').textContent = '+' + monthlySaving.toFixed(0) + ' ₽';
+            } else {
+                document.getElementById('monthly-saving').textContent = '—';
+            }
+
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('save-btn').classList.remove('hidden');
+
+            window._lastCalc = { distance, fuel, price, consumption, tripCost };
+        }
+
+        // ============================================================
+        // 5. СОХРАНЕНИЕ В ИСТОРИЮ
+        // ============================================================
+
+        function saveRecord() {
+            const data = window._lastCalc;
+            if (!data) return;
+
+            const record = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' }),
+                time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+                distance: data.distance,
+                fuel: data.fuel,
+                price: data.price,
+                consumption: data.consumption,
+                tripCost: data.tripCost
+            };
+
+            let history = JSON.parse(localStorage.getItem('fuel_history') || '[]');
+            history.unshift(record);
+            if (history.length > 100) history = history.slice(0, 100);
+            localStorage.setItem('fuel_history', JSON.stringify(history));
+
+            renderHistory();
+            updateStats();
+            showToast('✅ Запись сохранена!');
+            document.getElementById('save-btn').classList.add('hidden');
+        }
+
+        // ============================================================
+        // 6. ИСТОРИЯ
+        // ============================================================
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('fuel_history') || '[]');
+            const list = document.getElementById('history-list');
+            const count = document.getElementById('history-count');
+            const clearBtn = document.getElementById('clear-history-btn');
+
+            count.textContent = history.length + ' записей';
+
+            if (history.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <span class="emoji">📭</span>
+                        Нет записей
+                    </div>
+                `;
+                clearBtn.style.display = 'none';
+                return;
+            }
+
+            clearBtn.style.display = 'block';
+
+            list.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div class="left">
+                        <div class="date">${item.date} ${item.time}</div>
+                        <div class="detail">${item.distance} км · ${item.fuel} л</div>
+                    </div>
+                    <div class="right">
+                        <div class="consumption">${item.consumption.toFixed(1)} л/100км</div>
+                        <div class="cost">${item.tripCost.toFixed(0)} ₽</div>
+                        <button class="delete-btn" onclick="deleteRecord(${item.id})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteRecord(id) {
+            let history = JSON.parse(localStorage.getItem('fuel_history') || '[]');
+            history = history.filter(item => item.id !== id);
+            localStorage.setItem('fuel_history', JSON.stringify(history));
+            renderHistory();
+            updateStats();
+            showToast('🗑️ Запись удалена');
+        }
+
+        function clearHistory() {
+            if (!confirm('Удалить всю историю поездок?')) return;
+            localStorage.removeItem('fuel_history');
+            renderHistory();
+            updateStats();
+            showToast('🗑️ История очищена');
+        }
+
+        // ============================================================
+        // 7. СТАТИСТИКА
+        // ============================================================
+
+        function updateStats() {
+            const history = JSON.parse(localStorage.getItem('fuel_history') || '[]');
+
+            if (history.length === 0) {
+                document.getElementById('stat-avg-consumption').textContent = '—';
+                document.getElementById('stat-total-distance').textContent = '—';
+                document.getElementById('stat-total-cost').textContent = '—';
+                document.getElementById('stat-total-fuel').textContent = '—';
+                document.getElementById('stat-trips-count').textContent = '—';
+                return;
+            }
+
+            const totalDistance = history.reduce((sum, item) => sum + item.distance, 0);
+            const totalFuel = history.reduce((sum, item) => sum + item.fuel, 0);
+            const totalCost = history.reduce((sum, item) => sum + item.tripCost, 0);
+            const avgConsumption = totalDistance > 0 ? (totalFuel / totalDistance) * 100 : 0;
+
+            document.getElementById('stat-avg-consumption').textContent = avgConsumption.toFixed(1) + ' л';
+            document.getElementById('stat-total-distance').textContent = totalDistance.toFixed(0) + ' км';
+            document.getElementById('stat-total-cost').textContent = totalCost.toFixed(0) + ' ₽';
+            document.getElementById('stat-total-fuel').textContent = totalFuel.toFixed(0) + ' л';
+            document.getElementById('stat-trips-count').textContent = history.length;
+        }
+
+        // ============================================================
+        // 8. ОБЩИЕ ДАННЫЕ
+        // ============================================================
+
+        const STATIONS_DATA = { green: 13 };
+        const RATING = { value: 4.8 };
+        const VIEWS = 7739;
+
         function updateData() {
             document.getElementById('green-count').textContent = STATIONS_DATA.green;
             document.getElementById('rating-value').textContent = RATING.value.toFixed(1);
             document.getElementById('views-count').textContent = VIEWS;
 
-            const stars = document.querySelectorAll('.star');
+            const stars = document.querySelectorAll('#stars-container .star');
             const rating = RATING.value;
             stars.forEach((star, index) => {
                 const val = index + 1;
@@ -841,46 +1450,37 @@
                 }
             });
         }
-        updateData();
 
-        // === КАРТА ===
-        let loadAttempts = 0;
-        const MAX_ATTEMPTS = 3;
-        const mapFrame = document.getElementById('map-frame');
-        const loading = document.getElementById('loading');
+        // ============================================================
+        // 9. TOAST
+        // ============================================================
 
-        function loadMap() {
-            loading.style.display = 'block';
-            mapFrame.src = MAP_URL;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
         }
 
-        function refreshMap() {
-            loadAttempts = 0;
-            loading.style.display = 'block';
-            mapFrame.src = '';
-            setTimeout(() => {
-                mapFrame.src = MAP_URL;
-                setTimeout(() => {
-                    updateData();
-                    fixHeight();
-                }, 200);
-            }, 150);
-        }
+        // ============================================================
+        // 10. ДАТА
+        // ============================================================
 
-        mapFrame.addEventListener('load', function() {
-            loading.style.display = 'none';
-            fixHeight();
-        });
+        (function setDate() {
+            const now = new Date();
+            document.getElementById('time-label').textContent = now.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'short'
+            });
+        })();
 
-        setTimeout(function checkLoaded() {
-            if (loading.style.display !== 'none' && loadAttempts < MAX_ATTEMPTS) {
-                loadAttempts++;
-                mapFrame.src = MAP_URL;
-                setTimeout(checkLoaded, 4000);
-            }
-        }, 5000);
+        // ============================================================
+        // 11. ПОПАП
+        // ============================================================
 
-        // === ПОПАП ===
         const popup = document.getElementById('popup-overlay');
         let countdownInterval;
         let countdownValue = 10;
@@ -888,7 +1488,6 @@
         function closePopup() {
             popup.style.display = 'none';
             if (countdownInterval) clearInterval(countdownInterval);
-            fixHeight();
         }
 
         function startCountdown() {
@@ -905,9 +1504,13 @@
             }, 1000);
         }
 
-        // === ШАРИНГ ===
+        // ============================================================
+        // 12. ШАРИНГ
+        // ============================================================
+
         function sharePage() {
-            const shareText = '⛽ Заправки Тула — актуальная карта АЗС с ценами и очередями!\n\nОткрой карту: ' + window.location.href;
+            const shareText = '⛽ Заправки Тула — актуальная карта АЗС с ценами и очередями!\n\nОткрой карту: ' + window
+                .location.href;
             if (navigator.share) {
                 navigator.share({
                     title: 'Заправки Тула',
@@ -921,14 +1524,16 @@
             }
         }
 
-        // === ФОРМА ===
+        // ============================================================
+        // 13. ОБРАТНАЯ СВЯЗЬ
+        // ============================================================
+
         function openFeedback() {
             document.getElementById('feedback-modal').classList.add('show');
         }
 
         function closeFeedback() {
             document.getElementById('feedback-modal').classList.remove('show');
-            fixHeight();
         }
 
         function sendFeedback() {
@@ -952,22 +1557,28 @@
             const message = `📩 *Новое сообщение с карты*\n\n${text}`;
 
             fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
-            })
-            .then(() => {
-                alert('✅ Сообщение отправлено! Спасибо!');
-                closeFeedback();
-                document.getElementById('feedback-text').value = '';
-            })
-            .catch(() => {
-                alert('❌ Ошибка отправки. Попробуйте позже.');
-            });
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
+                })
+                .then(() => {
+                    alert('✅ Сообщение отправлено! Спасибо!');
+                    closeFeedback();
+                    document.getElementById('feedback-text').value = '';
+                })
+                .catch(() => {
+                    alert('❌ Ошибка отправки. Попробуйте позже.');
+                });
         }
 
-        // === ЗАПУСК ===
-        fixHeight();
+        // ============================================================
+        // 14. ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
+
+        updateData();
+        updateProfileUI();
+        renderHistory();
+        updateStats();
         loadMap();
         startCountdown();
 
@@ -979,12 +1590,24 @@
         }
         sessionStorage.setItem('popupShown', 'true');
 
-        window.addEventListener('resize', fixHeight);
-        window.addEventListener('orientationchange', function() {
-            setTimeout(fixHeight, 300);
+        document.querySelectorAll('.input-group input').forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const tab = document.querySelector('.tab-content.active');
+                    if (tab && tab.id === 'tab-calc') {
+                        calculate();
+                    }
+                }
+            });
         });
 
-        setInterval(fixHeight, 500);
+        document.getElementById('profile-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeProfileModal();
+        });
+
+        document.getElementById('feedback-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeFeedback();
+        });
     </script>
 </body>
 </html>
