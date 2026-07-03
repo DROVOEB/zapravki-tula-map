@@ -16,6 +16,7 @@
             height: 100%;
             overflow: hidden;
             background: #08080a;
+            touch-action: none;
         }
 
         body {
@@ -28,6 +29,7 @@
             position: fixed;
             top: 0;
             left: 0;
+            touch-action: none;
         }
 
         #app {
@@ -36,6 +38,7 @@
             height: 100%;
             width: 100%;
             background: radial-gradient(ellipse at 50% 0%, #141416, #08080a 70%);
+            touch-action: none;
         }
 
         /* --- ШАПКА --- */
@@ -45,6 +48,8 @@
             flex-shrink: 0;
             z-index: 10;
             box-shadow: 0 2px 20px rgba(255, 140, 0, 0.2);
+            touch-action: none;
+            pointer-events: auto;
         }
 
         #header-top {
@@ -91,13 +96,14 @@
             white-space: nowrap;
             min-height: 40px;
             min-width: 80px;
+            touch-action: manipulation;
         }
 
         #refresh-btn:active {
             transform: scale(0.95);
         }
 
-        /* --- КАРТА --- */
+        /* --- КАРТА (Яндекс.Карты) --- */
         #map-container {
             flex: 1;
             position: relative;
@@ -107,6 +113,7 @@
             background: #0a0a0c;
             box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
             min-height: 0;
+            touch-action: none;
         }
 
         #map-container iframe {
@@ -117,6 +124,8 @@
             height: 100%;
             border: none;
             filter: saturate(1.1) contrast(1.02);
+            pointer-events: auto;
+            touch-action: auto;
         }
 
         /* --- ЗАГРУЗКА --- */
@@ -150,7 +159,7 @@
             color: rgba(255, 255, 255, 0.15);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ И УДОБНАЯ) --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         #footer {
             background: rgba(12, 12, 16, 0.95);
             backdrop-filter: blur(20px);
@@ -167,6 +176,8 @@
             color: #666;
             font-weight: 500;
             width: 100%;
+            touch-action: none;
+            pointer-events: auto;
         }
 
         #footer-left {
@@ -494,7 +505,7 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- АДАПТИВ ДЛЯ ТЕЛЕФОНА --- */
+        /* --- АДАПТИВ --- */
         @media (max-width: 480px) {
             #header {
                 padding: 10px 14px;
@@ -637,7 +648,7 @@
             </div>
         </div>
 
-        <!-- КАРТА -->
+        <!-- КАРТА (Яндекс.Карты) -->
         <div id="map-container">
             <div id="loading">
                 <div class="spinner"></div>
@@ -646,7 +657,7 @@
             <iframe id="map-frame" src=""></iframe>
         </div>
 
-        <!-- НИЖНЯЯ ПАНЕЛЬ (БОЛЬШАЯ) -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ -->
         <div id="footer">
             <div id="footer-left">
                 <span class="date">📅 <span id="time-label"></span></span>
@@ -727,7 +738,10 @@
         }
 
         // === КОНФИГУРАЦИЯ ===
-        const MAP_URL = 'https://www.google.com/maps/d/u/0/embed?mid=189xI53EXgDdXl5Ffhype8F7HCA2IVFI&ehbc=2E312F';
+        // ========== НОВАЯ ССЫЛКА НА ЯНДЕКС.КАРТЫ ==========
+        const MAP_URL = 'https://yandex.ru/map-widget/v1/?um=constructor%3A88473f3d5376c583d56399160a83a27ef0e2c029de801f9cdf7705c908b343d3&source=constructor';
+        // =================================================
+
         const STATIONS_DATA = { green: 13 };
         const RATING = { value: 4.8 };
         const VIEWS = 7739;
@@ -908,13 +922,11 @@
         }
         sessionStorage.setItem('popupShown', 'true');
 
-        // === ПЕРЕХВАТ ИЗМЕНЕНИЙ РАЗМЕРА ===
         window.addEventListener('resize', fixHeight);
         window.addEventListener('orientationchange', function() {
             setTimeout(fixHeight, 300);
         });
 
-        // === ПЕРИОДИЧЕСКАЯ ПРОВЕРКА ВЫСОТЫ ===
         setInterval(fixHeight, 500);
     </script>
 </body>
