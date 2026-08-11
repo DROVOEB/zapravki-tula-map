@@ -952,12 +952,9 @@
 
         <div class="container">
 
-            <!-- ===== ВКЛАДКА: КАРТА ===== -->
+            <!-- ===== ВКЛАДКА: КАРТА (ОБНОВЛЕНА) ===== -->
             <div class="tab-content active" id="tab-map">
                 <div id="map-controls">
-                    <button class="map-control-btn" onclick="goToMyLocation()">
-                        <span class="icon">📍</span> Я здесь
-                    </button>
                     <button class="map-control-btn" onclick="refreshMap()">
                         <span class="icon">🔄</span> Обновить
                     </button>
@@ -965,7 +962,7 @@
                 <div id="map-container">
                     <div id="loading">
                         <div class="spinner"></div>
-                        <p>Загружаем...</p>
+                        <p>Загружаем карту...</p>
                     </div>
                     <iframe id="map-frame" src=""></iframe>
                 </div>
@@ -1180,23 +1177,13 @@
 
             document.getElementById('tab-' + tab).classList.add('active');
             document.getElementById('nav-' + tab).classList.add('active');
-
-            if (tab === 'map' && window._mapLoaded) {
-                setTimeout(() => {
-                    const container = document.getElementById('map-container');
-                    if (container) {
-                        const iframe = container.querySelector('iframe');
-                        if (iframe && iframe.src) {}
-                    }
-                }, 100);
-            }
         }
 
         // ============================================================
-        // 2. КАРТА
+        // 2. КАРТА (SBERAZS) - ИЗМЕНЕНО
         // ============================================================
 
-        const MAP_URL = 'https://yandex.ru/map-widget/v1/?um=constructor%3A88473f3d5376c583d56399160a83a27ef0e2c029de801f9cdf7705c908b343d3&source=constructor';
+        const MAP_URL = 'https://sberazs.ru/';
 
         function loadMap() {
             const loading = document.getElementById('loading');
@@ -1218,25 +1205,6 @@
             document.getElementById('loading').style.display = 'none';
             window._mapLoaded = true;
         });
-
-        function goToMyLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(pos) {
-                        const lat = pos.coords.latitude;
-                        const lon = pos.coords.longitude;
-                        const newUrl = MAP_URL + `&ll=${lon},${lat}&z=15`;
-                        document.getElementById('map-frame').src = newUrl;
-                        showToast('📍 Карта центрирована по вашему местоположению');
-                    },
-                    function() {
-                        showToast('❌ Не удалось определить местоположение. Разрешите доступ к геолокации.');
-                    }
-                );
-            } else {
-                showToast('❌ Геолокация не поддерживается вашим браузером');
-            }
-        }
 
         // ============================================================
         // 3. ПРОФИЛЬ
@@ -1593,7 +1561,7 @@
         updateProfileUI();
         renderHistory();
         updateStats();
-        loadMap();
+        loadMap(); // Загружаем sberazs.ru при старте
         startCountdown();
 
         if (sessionStorage.getItem('popupShown') === 'true') {
