@@ -69,7 +69,7 @@
 
         #header h1 span { font-size: 20px; }
 
-        /* ===== НАВИГАЦИЯ (УЛУЧШЕННАЯ) ===== */
+        /* ===== НАВИГАЦИЯ ===== */
         #nav {
             display: flex;
             gap: 4px;
@@ -152,7 +152,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== КАРТА ===== */
+        /* ===== КАРТА (2ГИС) ===== */
         #map-container {
             height: 100%;
             min-height: 280px;
@@ -171,7 +171,6 @@
             width: 100%;
             height: 100%;
             border: none;
-            filter: saturate(1.05) contrast(1.02);
         }
 
         #loading {
@@ -314,7 +313,7 @@
         }
         .input-row .input-group { flex: 1; }
 
-        /* ===== КНОПКИ (УЛУЧШЕНЫ) ===== */
+        /* ===== КНОПКИ ===== */
         .btn {
             width: 100%;
             padding: 14px;
@@ -952,9 +951,12 @@
 
         <div class="container">
 
-            <!-- ===== ВКЛАДКА: КАРТА (ОБНОВЛЕНА) ===== -->
+            <!-- ===== ВКЛАДКА: КАРТА (2ГИС) ===== -->
             <div class="tab-content active" id="tab-map">
                 <div id="map-controls">
+                    <button class="map-control-btn" onclick="goToMyLocation()">
+                        <span class="icon">📍</span> Я здесь
+                    </button>
                     <button class="map-control-btn" onclick="refreshMap()">
                         <span class="icon">🔄</span> Обновить
                     </button>
@@ -962,7 +964,7 @@
                 <div id="map-container">
                     <div id="loading">
                         <div class="spinner"></div>
-                        <p>Загружаем карту...</p>
+                        <p>Загружаем 2ГИС...</p>
                     </div>
                     <iframe id="map-frame" src=""></iframe>
                 </div>
@@ -1180,10 +1182,11 @@
         }
 
         // ============================================================
-        // 2. КАРТА (SBERAZS) - ИЗМЕНЕНО
+        // 2. КАРТА 2ГИС
         // ============================================================
 
-        const MAP_URL = 'https://sberazs.ru/';
+        // Специальная ссылка на карту 2ГИС Тулы (разрешает встраивание)
+        const MAP_URL = 'https://2gis.ru/tula/firm/70000001038777055?m=37.618418%2C54.193033%2F13';
 
         function loadMap() {
             const loading = document.getElementById('loading');
@@ -1199,6 +1202,13 @@
                 mapFrame.src = MAP_URL;
                 showToast('🔄 Карта обновлена');
             }, 150);
+        }
+
+        // 2ГИС сам определяет геолокацию, если разрешено. 
+        // Поэтому кнопка "Я здесь" просто мягко перезагружает карту.
+        function goToMyLocation() {
+            refreshMap();
+            showToast('📍 2ГИС сам покажет ваше местоположение (если дан доступ)');
         }
 
         document.getElementById('map-frame').addEventListener('load', function() {
@@ -1561,7 +1571,7 @@
         updateProfileUI();
         renderHistory();
         updateStats();
-        loadMap(); // Загружаем sberazs.ru при старте
+        loadMap(); // Загружаем 2ГИС при старте
         startCountdown();
 
         if (sessionStorage.getItem('popupShown') === 'true') {
